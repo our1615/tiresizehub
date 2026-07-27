@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>EV Tire Matcher | Tire Size Hub</title>
+<meta name="description" content="Find EV-specific tires for your electric vehicle. Get recommended sizes, load indexes, and tire models with acoustic foam and low rolling resistance.">
+<meta property="og:title" content="EV Tire Matcher | Tire Size Hub">
+<meta property="og:description" content="Find the right EV tires with reinforced sidewalls and acoustic foam.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/ev-tire-matcher.html">
+<link rel="canonical" href="https://tiresizehub.org/tools/ev-tire-matcher.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "EV Tire Matcher",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Find EV-specific tires with the right load index, acoustic foam, and low rolling resistance for your electric vehicle.",
+  "url": "https://tiresizehub.org/tools/ev-tire-matcher.html"
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+<meta property="og:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-tool-page">
+  <div class="tsh-tool-header">
+    <h1>⚡ EV Tire Matcher</h1>
+    <p>Select your electric vehicle and get EV-specific tire recommendations with the right load index, acoustic foam, and low rolling resistance.</p>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+  <!-- Vehicle Selector -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:32px;">
+    <div class="tsh-input-panel">
+      <h3>🚗 Your Vehicle</h3>
+      <div class="tsh-form-group">
+        <label>Make</label>
+        <select id="ev-make" onchange="updateModels()">
+          <option value="">Select make...</option>
+          <option value="Tesla">Tesla</option>
+          <option value="Ford">Ford</option>
+          <option value="Hyundai">Hyundai</option>
+          <option value="Kia">Kia</option>
+          <option value="BMW">BMW</option>
+          <option value="Mercedes">Mercedes</option>
+          <option value="Rivian">Rivian</option>
+          <option value="Polestar">Polestar</option>
+          <option value="Volkswagen">Volkswagen</option>
+          <option value="Chevrolet">Chevrolet</option>
+        </select>
+      </div>
+      <div class="tsh-form-group">
+        <label>Model</label>
+        <select id="ev-model" onchange="updateYears()">
+          <option value="">Select model...</option>
+        </select>
+      </div>
+      <div class="tsh-form-group">
+        <label>Year</label>
+        <select id="ev-year">
+          <option value="">Select year...</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="tsh-btn-primary" onclick="matchEV()" style="flex:1;">Find EV Tires</button>
+        <button class="tsh-btn-secondary" onclick="resetEV()">Reset</button>
+      </div>
+    </div>
+
+    <div class="tsh-input-panel">
+      <h3>💡 Why EV Tires Matter</h3>
+      <div style="font-size:0.9rem;color:var(--tsh-text-light);line-height:1.7;">
+        <p><strong>Weight:</strong> EVs are 500-1000 lbs heavier. Standard tires overload.</p>
+        <p><strong>Torque:</strong> Instant torque wears rubber faster. EV compounds resist scrubbing.</p>
+        <p><strong>Noise:</strong> No engine to mask tire hum. Acoustic foam reduces cabin noise.</p>
+        <p><strong>Range:</strong> Low rolling resistance compounds add 3-5% range.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="ev-results" style="display:none;margin-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;margin-bottom:24px;">
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Factory Size</div>
+        <div id="res-ev-size" style="font-family:var(--tsh-font-heading);font-size:1.6rem;color:var(--tsh-primary);font-weight:700;">--</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Load Index</div>
+        <div id="res-ev-li" style="font-family:var(--tsh-font-heading);font-size:1.6rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">minimum</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Speed Rating</div>
+        <div id="res-ev-sr" style="font-family:var(--tsh-font-heading);font-size:1.6rem;color:var(--tsh-primary);font-weight:700;">--</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Vehicle Weight</div>
+        <div id="res-ev-weight" style="font-family:var(--tsh-font-heading);font-size:1.6rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">lbs</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔋 Recommended EV Tires</h3>
+    <div id="ev-tire-list" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:16px;margin-bottom:24px;"></div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="tsh-btn-secondary" onclick="saveEV()">💾 Save Result</button>
+      <button class="tsh-btn-secondary" onclick="exportEV()">📄 Export Report</button>
+      <button class="tsh-btn-secondary" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Radar Chart -->
+
+  <!-- How It Works -->
+  <div style="margin-bottom:40px;padding:28px;background:var(--tsh-secondary);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔧 How It Works</h3>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;">Electric vehicles are 500–1,000 lbs heavier than their gas counterparts and produce instant torque that scrubs rubber aggressively. EV-specific tires use reinforced sidewalls (higher load indexes), acoustic foam layers to reduce cabin noise, and low-rolling-resistance compounds to maximize range. This matcher looks up your vehicle in our database and returns factory specs plus recommended EV tires that meet or exceed those specs.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;"><strong>How to use:</strong> Select your EV make, model, and year. Click Find EV Tires to see factory size, minimum load index, speed rating, and vehicle weight. Browse the recommended tires, each tagged with features like acoustic foam and reinforced sidewalls.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text-light);line-height:1.7;"><strong>Tip:</strong> Never downgrade the load index on an EV. The extra weight and torque will destroy tires rated for lighter vehicles. Look for tires with "HL" (High Load) or "XL" (Extra Load) markings if available for your size.</p>
+  </div>
+  <div class="tsh-chart-container">
+    <h3>🕸️ EV Tire Characteristics</h3>
+    <canvas id="evRadar" width="800" height="400"></canvas>
+    <p style="text-align:center;color:var(--tsh-text-light);font-size:0.85rem;margin-top:8px;">Standard tire vs EV tire across 5 key performance dimensions.</p>
+  </div>
+
+  <!-- History -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🕐 Saved Matches</h3>
+    <div id="ev-history" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:left;">Vehicle</th>
+            <th style="padding:10px;text-align:center;">Size</th>
+            <th style="padding:10px;text-align:center;">Load Index</th>
+            <th style="padding:10px;text-align:center;">Weight</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="ev-history-body"></tbody>
+      </table>
+    </div>
+    <div id="ev-history-empty" style="text-align:center;padding:24px;color:var(--tsh-text-light);">No saved matches yet.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="tsh-btn-secondary" onclick="clearEVHistory()">🗑️ Clear All</button>
+      <button class="tsh-btn-secondary" onclick="exportAllEV()">📄 Export All</button>
+    </div>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+
+  <!-- Related -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-top:48px;">
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">📚 Related Articles</h3>
+      <div class="tsh-related-list">
+        <a href="../blog/ev-tire-revolution-why-electric-vehicles-demand-st.html" class="tsh-related-item">
+          <img src="../images/blog/ev-tire-revolution-why-electric-vehicles-demand-st.jpg" alt="EV tire revolution" width="60" height="60" loading="lazy">
+          <div><h4>EV Tire Revolution: Why Electric Vehicles Demand Stronger, Quieter, More Efficient Tires</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Concept</p></div>
+        </a>
+        <a href="../blog/the-tesla-owners-surprise-his-ev-needed-special-ti.html" class="tsh-related-item">
+          <img src="../images/blog/the-tesla-owners-surprise-his-ev-needed-special-ti.jpg" alt="Tesla EV tires" width="60" height="60" loading="lazy">
+          <div><h4>The Tesla Owner's Surprise: His EV Needed Special Tires He'd Never Heard Of</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+        <a href="../blog/ev-tire-matcher-tool-guide-finding-the-right-rubbe.html" class="tsh-related-item">
+          <img src="../images/blog/ev-tire-matcher-tool-guide-finding-the-right-rubbe.jpg" alt="EV tire matcher guide" width="60" height="60" loading="lazy">
+          <div><h4>EV Tire Matcher Tool Guide: Finding the Right Rubber for Your Electric Car</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Tool Guide</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">🛠️ Recommended Tools</h3>
+      <div class="tsh-tool-rec-list">
+        <a href="load-index-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Load Index Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Verify weight capacity.</p></div>
+        </a>
+        <a href="tire-size-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📐</div>
+          <div><h4>Tire Size Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check tire dimensions.</p></div>
+        </a>
+        <a href="tire-size-comparator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Tire Size Comparator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Compare EV vs standard.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+const EV_KEY = 'tsh_ev_history';
+let currentEV = null;
+
+const evDatabase = {
+  'Tesla': {
+    'Model 3': {
+      '2023': {size: '235/40R19', li: 96, sr: 'W', weight: 4100, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced sidewalls', 'Low rolling resistance'], price: '$280'},
+        {brand: 'Pirelli', model: 'P Zero Elect', features: ['Acoustic foam', 'High load index', 'Optimized for EV torque'], price: '$260'},
+        {brand: 'Hankook', model: 'iON evo AS', features: ['Low noise', 'EV compound', 'All-season'], price: '$220'}
+      ]},
+      '2022': {size: '235/40R19', li: 96, sr: 'W', weight: 4100, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced sidewalls'], price: '$280'},
+        {brand: 'Hankook', model: 'iON evo AS', features: ['Low noise', 'EV compound'], price: '$220'}
+      ]}
+    },
+    'Model Y': {
+      '2023': {size: '255/40R20', li: 101, sr: 'W', weight: 4500, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced sidewalls'], price: '$300'},
+        {brand: 'Pirelli', model: 'P Zero Elect', features: ['Acoustic foam', 'High load index'], price: '$280'},
+        {brand: 'Goodyear', model: 'ElectricDrive GT', features: ['Low rolling resistance', 'EV optimized'], price: '$250'}
+      ]}
+    }
+  },
+  'Ford': {
+    'Mustang Mach-E': {
+      '2023': {size: '225/55R19', li: 99, sr: 'V', weight: 4500, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced sidewalls'], price: '$270'},
+        {brand: 'Pirelli', model: 'P Zero Elect', features: ['High load index', 'EV torque optimized'], price: '$260'}
+      ]},
+      '2022': {size: '225/55R19', li: 99, sr: 'V', weight: 4500, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam'], price: '$270'},
+        {brand: 'Continental', model: 'EcoContact 6', features: ['Low rolling resistance', 'Quiet ride'], price: '$230'}
+      ]}
+    }
+  },
+  'Hyundai': {
+    'Ioniq 5': {
+      '2023': {size: '235/55R19', li: 101, sr: 'V', weight: 4400, tires: [
+        {brand: 'Michelin', model: 'Primacy MXM4', features: ['Low rolling resistance', 'Quiet'], price: '$240'},
+        {brand: 'Hankook', model: 'iON evo AS', features: ['EV compound', 'All-season'], price: '$210'}
+      ]}
+    },
+    'Ioniq 6': {
+      '2023': {size: '245/45R19', li: 102, sr: 'W', weight: 4300, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced'], price: '$260'},
+        {brand: 'Pirelli', model: 'P Zero Elect', features: ['High load index'], price: '$250'}
+      ]}
+    }
+  },
+  'Rivian': {
+    'R1T': {
+      '2023': {size: '275/65R20', li: 120, sr: 'T', weight: 7150, tires: [
+        {brand: 'Pirelli', model: 'Scorpion All Terrain Elect', features: ['Heavy duty', 'EV optimized', 'Off-road capable'], price: '$350'},
+        {brand: 'Continental', model: 'CrossContact LX25', features: ['High load index', 'All-season'], price: '$320'}
+      ]}
+    }
+  },
+  'BMW': {
+    'i4': {
+      '2023': {size: '245/40R19', li: 98, sr: 'W', weight: 4800, tires: [
+        {brand: 'Michelin', model: 'Pilot Sport EV', features: ['Acoustic foam', 'Reinforced'], price: '$280'},
+        {brand: 'Pirelli', model: 'P Zero Elect', features: ['High load index'], price: '$270'}
+      ]}
+    }
+  }
+};
+
+function updateModels(){
+  const make = document.getElementById('ev-make').value;
+  const modelSelect = document.getElementById('ev-model');
+  modelSelect.innerHTML = '<option value="">Select model...</option>';
+  if(evDatabase[make]){
+    Object.keys(evDatabase[make]).forEach(m => {
+      modelSelect.innerHTML += '<option value="' + m + '">' + m + '</option>';
+    });
+  }
+  document.getElementById('ev-year').innerHTML = '<option value="">Select year...</option>';
+}
+
+function updateYears(){
+  const make = document.getElementById('ev-make').value;
+  const model = document.getElementById('ev-model').value;
+  const yearSelect = document.getElementById('ev-year');
+  yearSelect.innerHTML = '<option value="">Select year...</option>';
+  if(evDatabase[make] && evDatabase[make][model]){
+    Object.keys(evDatabase[make][model]).forEach(y => {
+      yearSelect.innerHTML += '<option value="' + y + '">' + y + '</option>';
+    });
+  }
+}
+
+function matchEV(){
+  const make = document.getElementById('ev-make').value;
+  const model = document.getElementById('ev-model').value;
+  const year = document.getElementById('ev-year').value;
+
+  if(!make || !model || !year){
+    alert('Please select make, model, and year.');
+    return;
+  }
+
+  const data = evDatabase[make] && evDatabase[make][model] && evDatabase[make][model][year];
+  if(!data){
+    alert('Vehicle not in database. Please enter specs manually or try a similar model.');
+    return;
+  }
+
+  currentEV = {make, model, year, data, timestamp: new Date().toISOString()};
+
+  document.getElementById('res-ev-size').textContent = data.size;
+  document.getElementById('res-ev-li').textContent = data.li;
+  document.getElementById('res-ev-sr').textContent = data.sr;
+  document.getElementById('res-ev-weight').textContent = data.weight.toLocaleString();
+
+  const list = document.getElementById('ev-tire-list');
+  list.innerHTML = data.tires.map(t => 
+    '<div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">' +
+    '<div style="font-family:var(--tsh-font-heading);font-size:1.1rem;color:var(--tsh-primary);font-weight:600;">' + t.brand + ' ' + t.model + '</div>' +
+    '<div style="font-family:var(--tsh-font-heading);font-size:1.1rem;color:var(--tsh-accent);font-weight:700;">' + t.price + '</div>' +
+    '</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">' + t.features.map(f => '<span style="padding:3px 10px;background:rgba(255,107,53,0.1);color:var(--tsh-accent);border-radius:12px;font-size:0.75rem;font-weight:600;">' + f + '</span>').join('') + '</div>' +
+    '<div style="font-size:0.85rem;color:var(--tsh-text-light);">Size: ' + data.size + ' | Load Index: ' + data.li + '+ | Speed: ' + data.sr + '</div>' +
+    '</div>'
+  ).join('');
+
+  document.getElementById('ev-results').style.display = 'block';
+  drawEVRadar();
+}
+
+function resetEV(){
+  document.getElementById('ev-make').value = '';
+  document.getElementById('ev-model').innerHTML = '<option value="">Select model...</option>';
+  document.getElementById('ev-year').innerHTML = '<option value="">Select year...</option>';
+  document.getElementById('ev-results').style.display = 'none';
+  currentEV = null;
+  const canvas = document.getElementById('evRadar');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#999';
+  ctx.font = '16px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('Select a vehicle to see the EV tire characteristics radar', canvas.width/2, canvas.height/2);
+}
+
+function drawEVRadar(){
+  const canvas = document.getElementById('evRadar');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2 + 10;
+  const radius = 120;
+  const metrics = ['Load Capacity', 'Noise Reduction', 'Rolling Resistance', 'Torque Resistance', 'Tread Life'];
+  const standard = [3, 2, 2, 2, 4];
+  const ev = [5, 5, 5, 5, 3];
+
+  // Title
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = 'bold 16px Oswald';
+  ctx.textAlign = 'left';
+  ctx.fillText('Standard Tire vs EV Tire', 20, 30);
+
+  // Legend
+  ctx.fillStyle = '#999';
+  ctx.fillRect(20, 45, 14, 14);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.font = '12px Inter';
+  ctx.fillText('Standard Tire', 40, 56);
+  ctx.fillStyle = '#ff6b35';
+  ctx.fillRect(160, 45, 14, 14);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.fillText('EV Tire', 180, 56);
+
+  // Grid
+  for(let i = 1; i <= 5; i++){
+    ctx.strokeStyle = '#eee';
+    ctx.beginPath();
+    for(let j = 0; j < metrics.length; j++){
+      const angle = (Math.PI * 2 / metrics.length) * j - Math.PI / 2;
+      const x = cx + Math.cos(angle) * (radius * i / 5);
+      const y = cy + Math.sin(angle) * (radius * i / 5);
+      if(j === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Axes
+  metrics.forEach((m, i) => {
+    const angle = (Math.PI * 2 / metrics.length) * i - Math.PI / 2;
+    ctx.strokeStyle = '#ddd';
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(cx + Math.cos(angle) * radius, cy + Math.sin(angle) * radius);
+    ctx.stroke();
+
+    ctx.fillStyle = '#6b6b7b';
+    ctx.font = '12px Inter';
+    ctx.textAlign = 'center';
+    const lx = cx + Math.cos(angle) * (radius + 25);
+    const ly = cy + Math.sin(angle) * (radius + 25);
+    ctx.fillText(m, lx, ly + 4);
+  });
+
+  // Standard polygon
+  ctx.fillStyle = 'rgba(150,150,150,0.2)';
+  ctx.strokeStyle = '#999';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  standard.forEach((v, i) => {
+    const angle = (Math.PI * 2 / metrics.length) * i - Math.PI / 2;
+    const x = cx + Math.cos(angle) * (radius * v / 5);
+    const y = cy + Math.sin(angle) * (radius * v / 5);
+    if(i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // EV polygon
+  ctx.fillStyle = 'rgba(255,107,53,0.2)';
+  ctx.strokeStyle = '#ff6b35';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ev.forEach((v, i) => {
+    const angle = (Math.PI * 2 / metrics.length) * i - Math.PI / 2;
+    const x = cx + Math.cos(angle) * (radius * v / 5);
+    const y = cy + Math.sin(angle) * (radius * v / 5);
+    if(i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+}
+
+function saveEV(){
+  if(!currentEV) return;
+  let hist = JSON.parse(localStorage.getItem(EV_KEY) || '[]');
+  hist.unshift(currentEV);
+  if(hist.length > 20) hist = hist.slice(0, 20);
+  localStorage.setItem(EV_KEY, JSON.stringify(hist));
+  renderEVHistory();
+}
+
+function renderEVHistory(){
+  const hist = JSON.parse(localStorage.getItem(EV_KEY) || '[]');
+  const tbody = document.getElementById('ev-history-body');
+  const empty = document.getElementById('ev-history-empty');
+  if(hist.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = hist.map((h, i) => 
+    '<tr style="border-bottom:1px solid var(--tsh-border);"><td style="padding:10px;"><strong>' + h.make + ' ' + h.model + '</strong><br><small>' + h.year + '</small></td><td style="padding:10px;text-align:center;">' + h.data.size + '</td><td style="padding:10px;text-align:center;">' + h.data.li + '</td><td style="padding:10px;text-align:center;">' + h.data.weight.toLocaleString() + ' lbs</td><td style="padding:10px;text-align:center;"><button onclick="deleteEV(' + i + ')" style="background:none;border:none;color:var(--tsh-accent);cursor:pointer;font-size:1.2rem;">🗑️</button></td></tr>'
+  ).join('');
+}
+
+function deleteEV(i){
+  let hist = JSON.parse(localStorage.getItem(EV_KEY) || '[]');
+  hist.splice(i, 1);
+  localStorage.setItem(EV_KEY, JSON.stringify(hist));
+  renderEVHistory();
+}
+
+function clearEVHistory(){
+  if(!confirm('Clear all saved matches?')) return;
+  localStorage.removeItem(EV_KEY);
+  renderEVHistory();
+}
+
+function exportEV(){
+  if(!currentEV) return;
+  const lines = [
+    'EV TIRE MATCHER REPORT',
+    'Generated by Tire Size Hub',
+    'Date: ' + new Date().toLocaleString(),
+    '',
+    'VEHICLE: ' + currentEV.make + ' ' + currentEV.model + ' (' + currentEV.year + ')',
+    'Factory Size: ' + currentEV.data.size,
+    'Load Index: ' + currentEV.data.li,
+    'Speed Rating: ' + currentEV.data.sr,
+    'Weight: ' + currentEV.data.weight.toLocaleString() + ' lbs',
+    '',
+    'RECOMMENDED TIRES:',
+    currentEV.data.tires.map((t, i) => (i+1) + '. ' + t.brand + ' ' + t.model + ' — ' + t.price + ' (' + t.features.join(', ') + ')').join('\n'),
+    '',
+    'https://tiresizehub.org/tools/ev-tire-matcher.html'
+  ];
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ev-tire-match-' + currentEV.make + '-' + currentEV.model + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportAllEV(){
+  const hist = JSON.parse(localStorage.getItem(EV_KEY) || '[]');
+  if(hist.length === 0){ alert('No matches to export.'); return; }
+  const lines = ['TIRE SIZE HUB - EV TIRE MATCH HISTORY', 'Date: ' + new Date().toLocaleString(), ''];
+  hist.forEach((h, i) => {
+    lines.push((i+1) + '. ' + h.make + ' ' + h.model + ' ' + h.year + ' | Size: ' + h.data.size + ' | LI: ' + h.data.li);
+  });
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ev-tire-history.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Init
+renderEVHistory();
+const canvas = document.getElementById('evRadar');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#999';
+ctx.font = '16px Inter';
+ctx.textAlign = 'center';
+ctx.fillText('Select a vehicle to see the EV tire characteristics radar', canvas.width/2, canvas.height/2);
+if(window.initAds) window.initAds();
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Link copied to clipboard!');
+  });
+}
+
+</script>
+
+</body>
+</html>
