@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>Tools | Tire Size Hub - Free Tire Calculators</title>
+<meta name="description" content="8 free tire calculators and guides. Calculate tire size, compare specs, check gear ratios, wheel offset, load index, speed ratings, and EV tire matching.">
+<meta property="og:title" content="Tools | Tire Size Hub">
+<meta property="og:description" content="8 free tire calculators and guides. All data stays in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/">
+<meta property="og:image" content="https://tiresizehub.org/images/og-tools.jpg">
+<link rel="canonical" href="https://tiresizehub.org/tools/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Tire Size Hub Tools",
+  "description": "Free tire calculators and wheel fitment tools",
+  "url": "https://tiresizehub.org/tools/",
+  "hasPart": [
+    {"@type": "SoftwareApplication", "name": "Tire Size Calculator", "url": "https://tiresizehub.org/tools/tire-size-calculator.html"},
+    {"@type": "SoftwareApplication", "name": "Tire Size Comparator", "url": "https://tiresizehub.org/tools/tire-size-comparator.html"},
+    {"@type": "SoftwareApplication", "name": "Gear Ratio Calculator", "url": "https://tiresizehub.org/tools/gear-ratio-calculator.html"},
+    {"@type": "SoftwareApplication", "name": "Wheel Offset Calculator", "url": "https://tiresizehub.org/tools/wheel-offset-calculator.html"},
+    {"@type": "SoftwareApplication", "name": "Load Index Calculator", "url": "https://tiresizehub.org/tools/load-index-calculator.html"},
+    {"@type": "SoftwareApplication", "name": "Speed Rating Guide", "url": "https://tiresizehub.org/tools/speed-rating-guide.html"},
+    {"@type": "SoftwareApplication", "name": "EV Tire Matcher", "url": "https://tiresizehub.org/tools/ev-tire-matcher.html"},
+    {"@type": "SoftwareApplication", "name": "Plus-Sizing Calculator", "url": "https://tiresizehub.org/tools/plus-sizing-calculator.html"}
+  ]
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+<div class="tsh-tools-index">
+  <aside class="tsh-tools-sidebar">
+    <h3>Categories</h3>
+    <ul>
+      <li><a href="#all" class="active" onclick="filterTools('all')">All Tools</a></li>
+      <li><a href="#size" onclick="filterTools('size')">Size & Fitment</a></li>
+      <li><a href="#performance" onclick="filterTools('performance')">Performance</a></li>
+      <li><a href="#safety" onclick="filterTools('safety')">Safety & Ratings</a></li>
+      <li><a href="#ev" onclick="filterTools('ev')">Electric Vehicles</a></li>
+    </ul>
+
+    <div style="margin-top:32px;padding:20px;background:var(--tsh-secondary);border-radius:var(--tsh-radius);border:1px solid var(--tsh-border);">
+      <h3 style="font-family:var(--tsh-font-heading);font-size:0.9rem;margin-bottom:8px;">💡 Did You Know?</h3>
+      <p style="font-size:0.8rem;color:var(--tsh-text-light);">All calculations run locally in your browser. We never see your tire sizes or vehicle data.</p>
+    </div>
+  </aside>
+
+  <div>
+    <div style="margin-bottom:24px;">
+      <h1 style="font-family:var(--tsh-font-heading);font-size:2rem;color:var(--tsh-primary);margin-bottom:8px;">Tools</h1>
+      <p style="color:var(--tsh-text-light);">8 free calculators. Pick a category or browse them all.</p>
+    </div>
+
+    <div class="tsh-tools-main-grid" id="tools-grid">
+      <a href="tire-size-calculator.html" class="tsh-tool-card" data-category="size">
+        <div class="tsh-tool-icon">📐</div>
+        <h3>Tire Size Calculator</h3>
+        <p>Calculate diameter, circumference, revs per mile, and speedometer error for any tire size.</p>
+      </a>
+      <a href="tire-size-comparator.html" class="tsh-tool-card" data-category="size">
+        <div class="tsh-tool-icon">⚖️</div>
+        <h3>Tire Size Comparator</h3>
+        <p>Compare two tire sizes side by side and see the difference in width, height, and revs.</p>
+      </a>
+      <a href="plus-sizing-calculator.html" class="tsh-tool-card" data-category="size">
+        <div class="tsh-tool-icon">📏</div>
+        <h3>Plus-Sizing Calculator</h3>
+        <p>Plan your wheel upgrade with recommended tire sizes that keep your speedometer accurate.</p>
+      </a>
+      <a href="wheel-offset-calculator.html" class="tsh-tool-card" data-category="size">
+        <div class="tsh-tool-icon">📐</div>
+        <h3>Wheel Offset Calculator</h3>
+        <p>See how new wheels will fit, including clearance to suspension and fenders.</p>
+      </a>
+      <a href="gear-ratio-calculator.html" class="tsh-tool-card" data-category="performance">
+        <div class="tsh-tool-icon">⚙️</div>
+        <h3>Gear Ratio Calculator</h3>
+        <p>Check engine RPM at highway speed and find the right gear ratio for your tire upgrade.</p>
+      </a>
+      <a href="load-index-calculator.html" class="tsh-tool-card" data-category="safety">
+        <div class="tsh-tool-icon">⚖️</div>
+        <h3>Load Index Calculator</h3>
+        <p>Check maximum weight per tire and compare against your vehicle's requirements.</p>
+      </a>
+      <a href="speed-rating-guide.html" class="tsh-tool-card" data-category="safety">
+        <div class="tsh-tool-icon">🏷️</div>
+        <h3>Speed Rating Guide</h3>
+        <p>Understand what speed ratings mean and why heat tolerance matters for performance.</p>
+      </a>
+      <a href="ev-tire-matcher.html" class="tsh-tool-card" data-category="ev">
+        <div class="tsh-tool-icon">⚡</div>
+        <h3>EV Tire Matcher</h3>
+        <p>Find EV-specific tires with the right load index, acoustic foam, and low rolling resistance.</p>
+      </a>
+    </div>
+
+    <div class="tsh-ad-slot" id="tool_middle" data-ad-slot="tool_middle"></div>
+
+    <!-- Latest Articles -->
+    <div style="margin-top:48px;">
+      <h2 style="font-family:var(--tsh-font-heading);font-size:1.4rem;color:var(--tsh-primary);margin-bottom:20px;">📖 Latest Articles</h2>
+      <div class="tsh-articles-grid" id="tools-articles">
+        <!-- TOOLS_ARTICLES_START -->
+
+
+
+
+
+
+        <a href="../blog/ev-tire-matcher-tool-guide-finding-the-right-rubbe.html" class="tsh-article-card">
+          <img src="../images/blog/ev-tire-matcher-tool-guide-finding-the-right-rubbe.jpg" alt="EV Tire Matcher Tool Guide: Finding the Right Rubber for Your Electric Car | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>EV Tire Matcher Tool Guide: Finding the Right Rubber for Your Electric Car | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+<a href="../blog/how-to-use-the-tire-size-calculator-to-compare-two.html" class="tsh-article-card">
+          <img src="../images/blog/how-to-use-the-tire-size-calculator-to-compare-two.jpg" alt="How to Use the Tire Size Calculator to Compare Two Sizes Side by Side | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>How to Use the Tire Size Calculator to Compare Two Sizes Side by Side | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+<a href="../blog/sustainable-tires-and-eu-labeling-what-american-bu.html" class="tsh-article-card">
+          <img src="../images/blog/sustainable-tires-and-eu-labeling-what-american-bu.jpg" alt="Sustainable Tires and EU Labeling: What American Buyers Should Know | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>Sustainable Tires and EU Labeling: What American Buyers Should Know | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+<a href="../blog/using-the-plus-sizing-calculator-to-plan-your-upgr.html" class="tsh-article-card">
+          <img src="../images/blog/using-the-plus-sizing-calculator-to-plan-your-upgr.jpg" alt="Using the Plus-Sizing Calculator to Plan Your Upgrade Without Rubbing | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>Using the Plus-Sizing Calculator to Plan Your Upgrade Without Rubbing | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+<a href="../blog/walking-through-the-wheel-offset-calculator-will-t.html" class="tsh-article-card">
+          <img src="../images/blog/walking-through-the-wheel-offset-calculator-will-t.jpg" alt="Walking Through the Wheel Offset Calculator: Will These Rims Actually Fit? | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>Walking Through the Wheel Offset Calculator: Will These Rims Actually Fit? | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+<a href="../blog/why-19inch-wheels-became-the-default-and-why-18s-m.html" class="tsh-article-card">
+          <img src="../images/blog/why-19inch-wheels-became-the-default-and-why-18s-m.jpg" alt="Why 19‑Inch Wheels Became the Default (And Why 18s Might Be Better) | Tire Size Hub" width="400" height="200" loading="lazy">
+          <div class="tsh-article-card-content">
+            <span class="tsh-category">Tutorial</span>
+            <h3>Why 19‑Inch Wheels Became the Default (And Why 18s Might Be Better) | Tire Size Hub</h3>
+            <div class="tsh-meta">June 13, 2024</div>
+          </div>
+        </a>
+        
+
+
+
+
+
+<!-- TOOLS_ARTICLES_END -->
+      </div>
+    </div>
+
+    <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+function filterTools(cat){
+  document.querySelectorAll('.tsh-tools-sidebar a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.tsh-tool-card').forEach(card => {
+    if(cat === 'all' || card.dataset.category === cat){
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+if(window.initAds) window.initAds();
+</script>
+
+</body>
+</html>
