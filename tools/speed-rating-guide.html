@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>Speed Rating Guide | Tire Size Hub</title>
+<meta name="description" content="Decode tire speed ratings. See maximum speed, heat tolerance, and recommended use cases for every rating from L to Y.">
+<meta property="og:title" content="Speed Rating Guide | Tire Size Hub">
+<meta property="og:description" content="Understand tire speed ratings and heat tolerance before you buy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/speed-rating-guide.html">
+<link rel="canonical" href="https://tiresizehub.org/tools/speed-rating-guide.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Speed Rating Guide",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Decode tire speed ratings, maximum speeds, and heat tolerance levels.",
+  "url": "https://tiresizehub.org/tools/speed-rating-guide.html"
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+<meta property="og:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-tool-page">
+  <div class="tsh-tool-header">
+    <h1>🏷️ Speed Rating Guide</h1>
+    <p>Enter a speed rating letter to see its maximum speed, heat tolerance, and typical use cases. Compare multiple ratings side by side.</p>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+  <!-- Search/Select -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+    <div class="tsh-input-panel">
+      <h3>🔍 Look Up a Rating</h3>
+      <div class="tsh-form-group">
+        <label>Speed Rating</label>
+        <select id="rating-select" onchange="showRating()">
+          <option value="">Select a rating...</option>
+          <option value="L">L — 75 mph (Light Truck)</option>
+          <option value="M">M — 81 mph (Temporary Spare)</option>
+          <option value="N">N — 87 mph (Temporary Spare)</option>
+          <option value="P">P — 93 mph</option>
+          <option value="Q">Q — 99 mph (Winter / Studded)</option>
+          <option value="R">R — 106 mph (Light Truck)</option>
+          <option value="S">S — 112 mph (Family Sedan)</option>
+          <option value="T">T — 118 mph (Family Sedan)</option>
+          <option value="U">U — 124 mph</option>
+          <option value="H">H — 130 mph (Sport Sedan)</option>
+          <option value="V">V — 149 mph (Sports Car)</option>
+          <option value="W">W — 168 mph (Exotic Sports)</option>
+          <option value="Y">Y — 186 mph (Exotic Sports)</option>
+          <option value="Z">Z — 149+ mph (High Performance)</option>
+        </select>
+      </div>
+      <div id="rating-result" style="display:none;margin-top:16px;padding:20px;background:var(--tsh-secondary);border-radius:var(--tsh-radius);border:1px solid var(--tsh-border);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-family:var(--tsh-font-heading);font-size:2rem;color:var(--tsh-primary);font-weight:700;" id="res-letter">--</div>
+          <div style="text-align:right;">
+            <div style="font-size:0.8rem;color:var(--tsh-text-light);">Max Speed</div>
+            <div style="font-family:var(--tsh-font-heading);font-size:1.4rem;color:var(--tsh-accent);font-weight:700;" id="res-speed">--</div>
+          </div>
+        </div>
+        <div style="font-size:0.9rem;color:var(--tsh-text-light);line-height:1.6;" id="res-desc">--</div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;" id="res-tags"></div>
+      </div>
+    </div>
+
+    <div class="tsh-input-panel">
+      <h3>⚖️ Compare Two Ratings</h3>
+      <div class="tsh-form-group">
+        <label>Rating A</label>
+        <select id="compare-a">
+          <option value="">Select...</option>
+          <option value="S">S</option>
+          <option value="T">T</option>
+          <option value="H">H</option>
+          <option value="V">V</option>
+          <option value="W">W</option>
+          <option value="Y">Y</option>
+        </select>
+      </div>
+      <div class="tsh-form-group">
+        <label>Rating B</label>
+        <select id="compare-b">
+          <option value="">Select...</option>
+          <option value="S">S</option>
+          <option value="T">T</option>
+          <option value="H">H</option>
+          <option value="V">V</option>
+          <option value="W">W</option>
+          <option value="Y">Y</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="tsh-btn-primary" onclick="compareRatings()" style="flex:1;">Compare</button>
+        <button class="tsh-btn-secondary" onclick="resetRatings()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Results -->
+  <div id="compare-results" style="display:none;margin-bottom:32px;">
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.95rem;background:var(--tsh-white);border-radius:var(--tsh-radius-lg);overflow:hidden;box-shadow:var(--tsh-shadow);">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:14px;text-align:left;">Metric</th>
+            <th id="th-a" style="padding:14px;text-align:center;">Rating A</th>
+            <th id="th-b" style="padding:14px;text-align:center;">Rating B</th>
+            <th style="padding:14px;text-align:center;">Difference</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Max Speed</td>
+            <td id="td-speed-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-speed-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-speed-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Heat Tolerance</td>
+            <td id="td-heat-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-heat-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-heat-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Typical Use</td>
+            <td id="td-use-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-use-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-use-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;font-weight:600;">Downgrade Risk</td>
+            <td id="td-risk-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-risk-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-risk-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="tsh-btn-secondary" onclick="saveRatingComp()">💾 Save Comparison</button>
+      <button class="tsh-btn-secondary" onclick="exportRatingComp()">📄 Export Report</button>
+      <button class="tsh-btn-secondary" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Speed Ladder Chart -->
+
+  <!-- How It Works -->
+  <div style="margin-bottom:40px;padding:28px;background:var(--tsh-secondary);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔧 How It Works</h3>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;">Speed ratings are not just about top speed — they indicate the tire's ability to dissipate heat under sustained load. A higher-rated tire uses stronger construction materials and can handle higher internal temperatures. This guide maps each letter rating to its maximum speed, heat tolerance level, and typical vehicle application. The comparison tool shows the exact difference between two ratings.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;"><strong>How to use:</strong> Select a rating from the dropdown to see its specs. Or pick two ratings and click Compare to see speed difference, heat tolerance gap, and downgrade risk. Use the chart to visualize where each rating sits on the speed ladder.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text-light);line-height:1.7;"><strong>Tip:</strong> Downgrading speed ratings is dangerous for performance driving. On the highway at 70 mph, an S-rated tire is fine. But on a track day or mountain road, the extra heat tolerance of H, V, or W-rated tires can prevent catastrophic failure.</p>
+  </div>
+  <div class="tsh-chart-container">
+    <h3>📈 Speed Rating Ladder</h3>
+    <canvas id="speedLadder" width="800" height="300"></canvas>
+    <p style="text-align:center;color:var(--tsh-text-light);font-size:0.85rem;margin-top:8px;">Maximum speed capability by rating. Higher ratings handle more heat.</p>
+  </div>
+
+  <!-- History -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🕐 Saved Comparisons</h3>
+    <div id="rating-history" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:left;">Rating A</th>
+            <th style="padding:10px;text-align:left;">Rating B</th>
+            <th style="padding:10px;text-align:center;">Speed Diff</th>
+            <th style="padding:10px;text-align:center;">Heat Diff</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="rating-history-body"></tbody>
+      </table>
+    </div>
+    <div id="rating-history-empty" style="text-align:center;padding:24px;color:var(--tsh-text-light);">No saved comparisons yet.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="tsh-btn-secondary" onclick="clearRatingHistory()">🗑️ Clear All</button>
+      <button class="tsh-btn-secondary" onclick="exportAllRatings()">📄 Export All</button>
+    </div>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+
+  <!-- Related -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-top:48px;">
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">📚 Related Articles</h3>
+      <div class="tsh-related-list">
+        <a href="../blog/load-index-and-speed-rating-the-safety-stats-most.html" class="tsh-related-item">
+          <img src="../images/blog/load-index-and-speed-rating-the-safety-stats-most.jpg" alt="Speed rating safety" width="60" height="60" loading="lazy">
+          <div><h4>Load Index and Speed Rating: The Safety Stats Most Drivers Ignore</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Concept</p></div>
+        </a>
+        <a href="../blog/a-track-day-newbie-destroyed-his-tires-because-he.html" class="tsh-related-item">
+          <img src="../images/blog/a-track-day-newbie-destroyed-his-tires-because-he.jpg" alt="Track day speed rating" width="60" height="60" loading="lazy">
+          <div><h4>A Track Day Newbie Destroyed His Tires Because He Ignored Speed Ratings</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+        <a href="../blog/how-to-read-a-tire-sidewall-like-a-mechanic-in-60.html" class="tsh-related-item">
+          <img src="../images/blog/how-to-read-a-tire-sidewall-like-a-mechanic-in-60.jpg" alt="Reading sidewall" width="60" height="60" loading="lazy">
+          <div><h4>How to Read a Tire Sidewall Like a Mechanic in 60 Seconds</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Tutorial</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">🛠️ Recommended Tools</h3>
+      <div class="tsh-tool-rec-list">
+        <a href="load-index-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Load Index Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check weight capacity.</p></div>
+        </a>
+        <a href="tire-size-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📐</div>
+          <div><h4>Tire Size Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Calculate dimensions.</p></div>
+        </a>
+        <a href="tire-size-comparator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Tire Size Comparator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Compare sizes.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+const RATING_KEY = 'tsh_rating_history';
+let currentRatingComp = null;
+
+const ratingData = {
+  'L': {speed: 75, heat: 'Low', use: 'Light trucks, off-road', desc: 'Designed for light trucks and off-road vehicles. Not suitable for sustained highway speeds.', risk: 'Low for intended use'},
+  'M': {speed: 81, heat: 'Low', use: 'Temporary spare', desc: 'Temporary spare tire rating. Limited to short distances at moderate speeds.', risk: 'High if used long-term'},
+  'N': {speed: 87, heat: 'Low', use: 'Temporary spare', desc: 'Temporary spare tire rating. Slightly higher speed capability than M-rated spares.', risk: 'High if used long-term'},
+  'P': {speed: 93, heat: 'Low', use: 'Older passenger cars', desc: 'Found on older passenger vehicles. Adequate for city driving but marginal for highway.', risk: 'Moderate for highway use'},
+  'Q': {speed: 99, heat: 'Medium', use: 'Winter / studded tires', desc: 'Common on winter and studded tires. The lower speed rating allows softer rubber compounds for cold grip.', risk: 'Low for winter use'},
+  'R': {speed: 106, heat: 'Medium', use: 'Light trucks, heavy duty', desc: 'Standard for light trucks and heavy-duty vehicles. Good balance of durability and speed.', risk: 'Low for truck use'},
+  'S': {speed: 112, heat: 'Medium', use: 'Family sedans, minivans', desc: 'The most common rating for family vehicles. Adequate for all legal highway speeds in the US.', risk: 'Low for normal driving'},
+  'T': {speed: 118, heat: 'Medium', use: 'Family sedans, crossovers', desc: 'Slightly higher than S. Common on touring tires for sedans and crossovers.', risk: 'Low for normal driving'},
+  'U': {speed: 124, heat: 'Medium-High', use: 'Sport sedans', desc: 'Entry-level performance rating. Found on sportier sedans and coupes.', risk: 'Low for street use'},
+  'H': {speed: 130, heat: 'High', use: 'Sport sedans, performance', desc: 'The threshold into performance territory. Handles higher sustained speeds and temperatures.', risk: 'Low for street use'},
+  'V': {speed: 149, heat: 'High', use: 'Sports cars, performance', desc: 'Serious performance rating. Required for sports cars and high-speed driving.', risk: 'Moderate for track use'},
+  'W': {speed: 168, heat: 'Very High', use: 'Exotic sports cars', desc: 'Ultra-high performance rating. Found on exotic and supercar tires.', risk: 'Moderate for sustained track use'},
+  'Y': {speed: 186, heat: 'Very High', use: 'Exotic sports cars', desc: 'The highest standard speed rating. Required for supercars and hypercars.', risk: 'Low for street, high for track'},
+  'Z': {speed: 149, heat: 'Very High', use: 'High performance', desc: 'Z-rated tires exceed 149 mph. The exact speed capability is determined by the tire manufacturer.', risk: 'Check manufacturer specs'}
+};
+
+const heatLevels = {'Low': 1, 'Medium': 2, 'Medium-High': 3, 'High': 4, 'Very High': 5};
+
+function showRating(){
+  const val = document.getElementById('rating-select').value;
+  if(!val || !ratingData[val]) return;
+  const d = ratingData[val];
+  document.getElementById('res-letter').textContent = val;
+  document.getElementById('res-speed').textContent = d.speed + ' mph';
+  document.getElementById('res-desc').textContent = d.desc;
+
+  const tags = [
+    '<span style="display:inline-block;padding:4px 10px;background:rgba(255,107,53,0.1);color:var(--tsh-accent);border-radius:12px;font-size:0.75rem;font-weight:600;">' + d.heat + ' Heat</span>',
+    '<span style="display:inline-block;padding:4px 10px;background:var(--tsh-secondary);color:var(--tsh-text-light);border-radius:12px;font-size:0.75rem;">' + d.use + '</span>'
+  ];
+  document.getElementById('res-tags').innerHTML = tags.join('');
+  document.getElementById('rating-result').style.display = 'block';
+}
+
+function compareRatings(){
+  const a = document.getElementById('compare-a').value;
+  const b = document.getElementById('compare-b').value;
+  if(!a || !b || !ratingData[a] || !ratingData[b]){
+    alert('Please select both ratings.');
+    return;
+  }
+
+  const da = ratingData[a];
+  const db = ratingData[b];
+  currentRatingComp = {a, b, da, db, timestamp: new Date().toISOString()};
+
+  document.getElementById('th-a').textContent = a + ' Rating';
+  document.getElementById('th-b').textContent = b + ' Rating';
+
+  document.getElementById('td-speed-a').textContent = da.speed + ' mph';
+  document.getElementById('td-speed-b').textContent = db.speed + ' mph';
+  const spdDiff = db.speed - da.speed;
+  document.getElementById('td-speed-diff').textContent = (spdDiff > 0 ? '+' : '') + spdDiff + ' mph';
+  document.getElementById('td-speed-diff').style.color = spdDiff < 0 ? '#e74c3c' : '#27ae60';
+
+  document.getElementById('td-heat-a').textContent = da.heat;
+  document.getElementById('td-heat-b').textContent = db.heat;
+  const heatDiff = heatLevels[db.heat] - heatLevels[da.heat];
+  document.getElementById('td-heat-diff').textContent = (heatDiff > 0 ? '+' : '') + heatDiff + ' levels';
+  document.getElementById('td-heat-diff').style.color = heatDiff < 0 ? '#e74c3c' : '#27ae60';
+
+  document.getElementById('td-use-a').textContent = da.use;
+  document.getElementById('td-use-b').textContent = db.use;
+  document.getElementById('td-use-diff').textContent = da.use === db.use ? 'Same' : 'Different';
+
+  document.getElementById('td-risk-a').textContent = da.risk;
+  document.getElementById('td-risk-b').textContent = db.risk;
+  document.getElementById('td-risk-diff').textContent = heatDiff < 0 ? '⚠️ Downgrade risky' : '✅ Upgrade safe';
+  document.getElementById('td-risk-diff').style.color = heatDiff < 0 ? '#e74c3c' : '#27ae60';
+
+  document.getElementById('compare-results').style.display = 'block';
+}
+
+function resetRatings(){
+  document.getElementById('compare-a').value = '';
+  document.getElementById('compare-b').value = '';
+  document.getElementById('compare-results').style.display = 'none';
+  currentRatingComp = null;
+}
+
+function drawSpeedLadder(){
+  const canvas = document.getElementById('speedLadder');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const ratings = ['Q','R','S','T','H','V','W','Y'];
+  const padding = 60;
+  const chartW = canvas.width - padding * 2;
+  const chartH = canvas.height - padding * 2;
+  const maxSpeed = 200;
+  const barW = chartW / ratings.length * 0.6;
+  const gap = chartW / ratings.length;
+
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = 'bold 16px Oswald';
+  ctx.textAlign = 'left';
+  ctx.fillText('Speed Rating Ladder (mph)', padding, 30);
+
+  // Axes
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padding, padding);
+  ctx.lineTo(padding, canvas.height - padding);
+  ctx.lineTo(canvas.width - padding, canvas.height - padding);
+  ctx.stroke();
+
+  // Y labels
+  ctx.fillStyle = '#6b6b7b';
+  ctx.font = '11px Inter';
+  ctx.textAlign = 'right';
+  for(let i = 0; i <= 4; i++){
+    const y = canvas.height - padding - (i / 4) * chartH;
+    ctx.fillText((i * 50) + '', padding - 8, y + 4);
+    ctx.strokeStyle = '#eee';
+    ctx.beginPath();
+    ctx.moveTo(padding, y);
+    ctx.lineTo(canvas.width - padding, y);
+    ctx.stroke();
+  }
+
+  ratings.forEach((r, i) => {
+    const d = ratingData[r];
+    const h = (d.speed / maxSpeed) * chartH;
+    const x = padding + i * gap + (gap - barW) / 2;
+    const y = canvas.height - padding - h;
+
+    const grad = ctx.createLinearGradient(0, y, 0, canvas.height - padding);
+    grad.addColorStop(0, '#ff6b35');
+    grad.addColorStop(1, '#e55a2b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, y, barW, h);
+
+    ctx.fillStyle = '#2d2d3a';
+    ctx.font = 'bold 13px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(d.speed + '', x + barW/2, y - 8);
+    ctx.fillStyle = '#6b6b7b';
+    ctx.font = 'bold 14px Inter';
+    ctx.fillText(r, x + barW/2, canvas.height - padding + 18);
+  });
+}
+
+function saveRatingComp(){
+  if(!currentRatingComp) return;
+  let hist = JSON.parse(localStorage.getItem(RATING_KEY) || '[]');
+  hist.unshift(currentRatingComp);
+  if(hist.length > 20) hist = hist.slice(0, 20);
+  localStorage.setItem(RATING_KEY, JSON.stringify(hist));
+  renderRatingHistory();
+}
+
+function renderRatingHistory(){
+  const hist = JSON.parse(localStorage.getItem(RATING_KEY) || '[]');
+  const tbody = document.getElementById('rating-history-body');
+  const empty = document.getElementById('rating-history-empty');
+  if(hist.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = hist.map((h, i) => {
+    const spdDiff = h.db.speed - h.da.speed;
+    const heatDiff = heatLevels[h.db.heat] - heatLevels[h.da.heat];
+    return '<tr style="border-bottom:1px solid var(--tsh-border);"><td style="padding:10px;"><strong>' + h.a + '</strong> (' + h.da.speed + ' mph)</td><td style="padding:10px;"><strong>' + h.b + '</strong> (' + h.db.speed + ' mph)</td><td style="padding:10px;text-align:center;">' + (spdDiff > 0 ? '+' : '') + spdDiff + ' mph</td><td style="padding:10px;text-align:center;">' + (heatDiff > 0 ? '+' : '') + heatDiff + '</td><td style="padding:10px;text-align:center;"><button onclick="deleteRating(' + i + ')" style="background:none;border:none;color:var(--tsh-accent);cursor:pointer;font-size:1.2rem;">🗑️</button></td></tr>';
+  }).join('');
+}
+
+function deleteRating(i){
+  let hist = JSON.parse(localStorage.getItem(RATING_KEY) || '[]');
+  hist.splice(i, 1);
+  localStorage.setItem(RATING_KEY, JSON.stringify(hist));
+  renderRatingHistory();
+}
+
+function clearRatingHistory(){
+  if(!confirm('Clear all saved comparisons?')) return;
+  localStorage.removeItem(RATING_KEY);
+  renderRatingHistory();
+}
+
+function exportRatingComp(){
+  if(!currentRatingComp) return;
+  const lines = [
+    'SPEED RATING COMPARISON REPORT',
+    'Generated by Tire Size Hub',
+    'Date: ' + new Date().toLocaleString(),
+    '',
+    'RATING A: ' + currentRatingComp.a,
+    '  Max Speed: ' + currentRatingComp.da.speed + ' mph',
+    '  Heat Tolerance: ' + currentRatingComp.da.heat,
+    '  Typical Use: ' + currentRatingComp.da.use,
+    '',
+    'RATING B: ' + currentRatingComp.b,
+    '  Max Speed: ' + currentRatingComp.db.speed + ' mph',
+    '  Heat Tolerance: ' + currentRatingComp.db.heat,
+    '  Typical Use: ' + currentRatingComp.db.use,
+    '',
+    'https://tiresizehub.org/tools/speed-rating-guide.html'
+  ];
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'speed-rating-comparison.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportAllRatings(){
+  const hist = JSON.parse(localStorage.getItem(RATING_KEY) || '[]');
+  if(hist.length === 0){ alert('No comparisons to export.'); return; }
+  const lines = ['TIRE SIZE HUB - SPEED RATING HISTORY', 'Date: ' + new Date().toLocaleString(), ''];
+  hist.forEach((h, i) => {
+    lines.push((i+1) + '. ' + h.a + ' vs ' + h.b + ' | Speed: ' + h.da.speed + ' vs ' + h.db.speed + ' mph');
+  });
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'speed-rating-history.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Init
+drawSpeedLadder();
+renderRatingHistory();
+if(window.initAds) window.initAds();
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Link copied to clipboard!');
+  });
+}
+
+</script>
+
+</body>
+</html>
