@@ -1,0 +1,23 @@
+{
+  "site_name": "Tire Size Hub",
+  "domain": "tiresizehub.org",
+  "prefix": "tsh",
+  "language": "en",
+  "author": "Ryan Miller",
+  "author_email": "contact@tiresizehub.org",
+  "description": "Free tire size calculators, wheel offset tools, and gear ratio guides. Make informed tire decisions with data-driven tools and expert stories.",
+  "theme_color": "#1a1a2e",
+  "accent_color": "#ff6b35",
+  "secondary_color": "#f5f5f0",
+  "font_heading": "Oswald",
+  "font_body": "Inter",
+  "favicon": "favicon.ico",
+  "logo": "images/logo.png",
+  "social": {
+    "twitter": "https://twitter.com/tiresizehub",
+    "facebook": "https://facebook.com/tiresizehub"
+  },
+  "analytics": "G-XXXXXXXXXX",
+  "adsense": "ca-pub-XXXXXXXXXX",
+  "year_founded": 2024
+}
