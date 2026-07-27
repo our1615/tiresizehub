@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>Load Index Calculator | Tire Size Hub</title>
+<meta name="description" content="Calculate maximum tire load capacity from load index. Compare against your vehicle's weight requirements and see safety margins.">
+<meta property="og:title" content="Load Index Calculator | Tire Size Hub">
+<meta property="og:description" content="Check tire load capacity and safety margins for your vehicle.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/load-index-calculator.html">
+<link rel="canonical" href="https://tiresizehub.org/tools/load-index-calculator.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Load Index Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Calculate tire load capacity from load index and compare against vehicle weight requirements.",
+  "url": "https://tiresizehub.org/tools/load-index-calculator.html"
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+<meta property="og:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-tool-page">
+  <div class="tsh-tool-header">
+    <h1>⚖️ Load Index Calculator</h1>
+    <p>Enter your tire's load index and your vehicle's weight. See if your tires can handle the load — and how much safety margin you have.</p>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+  <!-- Input -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));gap:20px;margin-bottom:32px;">
+    <div class="tsh-input-panel">
+      <h3>🛞 Tire Specs</h3>
+      <div class="tsh-form-group">
+        <label>Load Index</label>
+        <input type="number" id="load-index" placeholder="e.g. 115" min="60" max="150">
+      </div>
+      <div class="tsh-form-group">
+        <label>Number of Tires</label>
+        <select id="tire-count">
+          <option value="4">4 (Car / SUV / Light Truck)</option>
+          <option value="6">6 (Dually)</option>
+        </select>
+      </div>
+    </div>
+    <div class="tsh-input-panel">
+      <h3>🚗 Vehicle Weight</h3>
+      <div class="tsh-form-group">
+        <label>Curb Weight (lbs)</label>
+        <input type="number" id="curb-weight" placeholder="e.g. 4500" min="1000" max="20000">
+      </div>
+      <div class="tsh-form-group">
+        <label>Cargo + Passengers (lbs)</label>
+        <input type="number" id="cargo-weight" placeholder="e.g. 800" min="0" max="10000">
+      </div>
+      <div class="tsh-form-group">
+        <label>Tongue / Trailer Weight (lbs)</label>
+        <input type="number" id="tongue-weight" placeholder="e.g. 500" min="0" max="10000">
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px;">
+    <button class="tsh-btn-primary" onclick="calculateLoad()" style="padding:14px 48px;font-size:1.1rem;">Calculate Load Capacity</button>
+    <button class="tsh-btn-secondary" onclick="resetLoad()">Reset</button>
+  </div>
+
+  <!-- Dashboard Results -->
+  <div id="load-results" style="display:none;margin-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:16px;margin-bottom:24px;">
+      <div style="padding:24px;background:linear-gradient(135deg, var(--tsh-primary), #0f3460);border-radius:var(--tsh-radius-lg);color:var(--tsh-white);text-align:center;">
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Per Tire Capacity</div>
+        <div id="res-per-tire" style="font-family:var(--tsh-font-heading);font-size:2rem;font-weight:700;">--</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);">lbs</div>
+      </div>
+      <div style="padding:24px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Total Capacity</div>
+        <div id="res-total" style="font-family:var(--tsh-font-heading);font-size:2rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.85rem;color:var(--tsh-text-light);">lbs (all tires)</div>
+      </div>
+      <div style="padding:24px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Your Load</div>
+        <div id="res-your-load" style="font-family:var(--tsh-font-heading);font-size:2rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.85rem;color:var(--tsh-text-light);">lbs</div>
+      </div>
+      <div style="padding:24px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Safety Margin</div>
+        <div id="res-margin" style="font-family:var(--tsh-font-heading);font-size:2rem;color:var(--tsh-accent);font-weight:700;">--</div>
+        <div style="font-size:0.85rem;color:var(--tsh-text-light);">%</div>
+      </div>
+    </div>
+
+    <div id="load-warning" style="padding:16px 20px;border-radius:var(--tsh-radius);margin-bottom:16px;font-size:0.95rem;font-weight:500;"></div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="tsh-btn-secondary" onclick="saveLoad()">💾 Save Calculation</button>
+      <button class="tsh-btn-secondary" onclick="exportLoad()">📄 Export Report</button>
+      <button class="tsh-btn-secondary" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Chart -->
+
+  <!-- How It Works -->
+  <div style="margin-bottom:40px;padding:28px;background:var(--tsh-secondary);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔧 How It Works</h3>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;">The load index is a numerical code that corresponds to the maximum weight a tire can support when properly inflated. This calculator maps your load index to pounds per tire, multiplies by the number of tires, and compares that total capacity against your vehicle's curb weight plus cargo, passengers, and trailer tongue weight. The safety margin shows how much reserve capacity remains.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;"><strong>How to use:</strong> Enter your tire's load index, tire count (4 or 6 for dually), curb weight, cargo weight, and any trailer tongue weight. Click Calculate to see per-tire capacity, total capacity, your actual load, and the safety margin percentage.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text-light);line-height:1.7;"><strong>Tip:</strong> A safety margin below 10% is risky for towing or heavy loads. Always use LT-rated tires on 3/4-ton and larger trucks. Passenger-car tires (P-metric) are not rated for truck loads regardless of size.</p>
+  </div>
+  <div class="tsh-chart-container">
+    <h3>📊 Load Capacity vs Vehicle Load</h3>
+    <canvas id="loadChart" width="800" height="300"></canvas>
+  </div>
+
+  <!-- Load Index Reference Table -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">📋 Common Load Index Reference</h3>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.85rem;background:var(--tsh-white);border-radius:var(--tsh-radius-lg);overflow:hidden;box-shadow:var(--tsh-shadow);">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:center;">Index</th>
+            <th style="padding:10px;text-align:center;">lbs</th>
+            <th style="padding:10px;text-align:center;">Index</th>
+            <th style="padding:10px;text-align:center;">lbs</th>
+            <th style="padding:10px;text-align:center;">Index</th>
+            <th style="padding:10px;text-align:center;">lbs</th>
+            <th style="padding:10px;text-align:center;">Index</th>
+            <th style="padding:10px;text-align:center;">lbs</th>
+          </tr>
+        </thead>
+        <tbody id="load-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🕐 Saved Calculations</h3>
+    <div id="load-history" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:left;">Load Index</th>
+            <th style="padding:10px;text-align:center;">Per Tire</th>
+            <th style="padding:10px;text-align:center;">Vehicle Load</th>
+            <th style="padding:10px;text-align:center;">Margin</th>
+            <th style="padding:10px;text-align:center;">Status</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="load-history-body"></tbody>
+      </table>
+    </div>
+    <div id="load-history-empty" style="text-align:center;padding:24px;color:var(--tsh-text-light);">No saved calculations yet.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="tsh-btn-secondary" onclick="clearLoadHistory()">🗑️ Clear All</button>
+      <button class="tsh-btn-secondary" onclick="exportAllLoad()">📄 Export All</button>
+    </div>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+
+  <!-- Related -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-top:48px;">
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">📚 Related Articles</h3>
+      <div class="tsh-related-list">
+        <a href="../blog/load-index-and-speed-rating-the-safety-stats-most.html" class="tsh-related-item">
+          <img src="../images/blog/load-index-and-speed-rating-the-safety-stats-most.jpg" alt="Load index safety" width="60" height="60" loading="lazy">
+          <div><h4>Load Index and Speed Rating: The Safety Stats Most Drivers Ignore</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Concept</p></div>
+        </a>
+        <a href="../blog/when-a-tire-shop-sold-him-the-wrong-load-rating-fo.html" class="tsh-related-item">
+          <img src="../images/blog/when-a-tire-shop-sold-him-the-wrong-load-rating-fo.jpg" alt="Wrong load rating" width="60" height="60" loading="lazy">
+          <div><h4>When a Tire Shop Sold Him the Wrong Load Rating for His Truck</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+        <a href="../blog/the-tesla-owners-surprise-his-ev-needed-special-ti.html" class="tsh-related-item">
+          <img src="../images/blog/the-tesla-owners-surprise-his-ev-needed-special-ti.jpg" alt="EV load index" width="60" height="60" loading="lazy">
+          <div><h4>The Tesla Owner's Surprise: His EV Needed Special Tires</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">🛠️ Recommended Tools</h3>
+      <div class="tsh-tool-rec-list">
+        <a href="speed-rating-guide.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">🏷️</div>
+          <div><h4>Speed Rating Guide</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check speed ratings.</p></div>
+        </a>
+        <a href="tire-size-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📐</div>
+          <div><h4>Tire Size Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Calculate tire dimensions.</p></div>
+        </a>
+        <a href="tire-size-comparator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Tire Size Comparator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Compare tire sizes.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+const LOAD_KEY = 'tsh_load_history';
+let currentLoad = null;
+
+// Load index to lbs mapping (common values)
+const loadIndexMap = {
+  60:551, 61:567, 62:584, 63:600, 64:617, 65:639, 66:661, 67:677, 68:694, 69:716,
+  70:739, 71:761, 72:783, 73:805, 74:827, 75:853, 76:882, 77:908, 78:937, 79:963,
+  80:992, 81:1019, 82:1047, 83:1074, 84:1102, 85:1135, 86:1168, 87:1201, 88:1235, 89:1279,
+  90:1323, 91:1356, 92:1389, 93:1433, 94:1477, 95:1521, 96:1565, 97:1609, 98:1653, 99:1709,
+  100:1764, 101:1819, 102:1874, 103:1929, 104:1984, 105:2039, 106:2094, 107:2149, 108:2205, 109:2271,
+  110:2337, 111:2403, 112:2469, 113:2535, 114:2601, 115:2679, 116:2756, 117:2833, 118:2910, 119:2998,
+  120:3086, 121:3197, 122:3307, 123:3417, 124:3527, 125:3638, 126:3748, 127:3858, 128:3968, 129:4079,
+  130:4189, 131:4299, 132:4409, 133:4519, 134:4629, 135:4806, 136:4983, 137:5160, 138:5337, 139:5511,
+  140:5688, 141:5864, 142:6040, 143:6217, 144:6393, 145:6570, 146:6746, 147:6923, 148:7099, 149:7275
+};
+
+function calculateLoad(){
+  const li = parseInt(document.getElementById('load-index').value);
+  const count = parseInt(document.getElementById('tire-count').value);
+  const curb = parseFloat(document.getElementById('curb-weight').value) || 0;
+  const cargo = parseFloat(document.getElementById('cargo-weight').value) || 0;
+  const tongue = parseFloat(document.getElementById('tongue-weight').value) || 0;
+
+  if(!li || !loadIndexMap[li]){
+    alert('Please enter a valid load index (60-149).');
+    return;
+  }
+
+  const perTire = loadIndexMap[li];
+  const totalCap = perTire * count;
+  const totalLoad = curb + cargo + tongue;
+  const margin = totalCap - totalLoad;
+  const marginPct = ((margin / totalCap) * 100).toFixed(1);
+
+  currentLoad = {
+    index: li,
+    count: count,
+    perTire: perTire,
+    totalCap: totalCap,
+    totalLoad: totalLoad,
+    margin: margin,
+    marginPct: marginPct,
+    timestamp: new Date().toISOString()
+  };
+
+  document.getElementById('res-per-tire').textContent = perTire.toLocaleString();
+  document.getElementById('res-total').textContent = totalCap.toLocaleString();
+  document.getElementById('res-your-load').textContent = totalLoad.toLocaleString();
+  document.getElementById('res-margin').textContent = marginPct;
+  document.getElementById('res-margin').style.color = marginPct < 10 ? '#e74c3c' : (marginPct < 20 ? '#f39c12' : '#27ae60');
+
+  const warn = document.getElementById('load-warning');
+  if(margin < 0){
+    warn.style.display = 'block';
+    warn.style.background = '#f8d7da';
+    warn.style.color = '#721c24';
+    warn.style.borderLeft = '4px solid #e74c3c';
+    warn.innerHTML = '❌ <strong>OVERLOADED</strong> by ' + Math.abs(margin).toLocaleString() + ' lbs (' + Math.abs(marginPct) + '%). Your tires are rated for ' + totalCap.toLocaleString() + ' lbs total, but your vehicle load is ' + totalLoad.toLocaleString() + ' lbs. This is dangerous. Upgrade to a higher load index immediately.';
+  } else if(marginPct < 10){
+    warn.style.display = 'block';
+    warn.style.background = '#fff3cd';
+    warn.style.color = '#856404';
+    warn.style.borderLeft = '4px solid #f39c12';
+    warn.textContent = '⚠️ Safety margin is only ' + marginPct + '%. This is acceptable for normal driving but risky for towing or heavy loads. Consider upgrading your load index for peace of mind.';
+  } else {
+    warn.style.display = 'block';
+    warn.style.background = '#d4edda';
+    warn.style.color = '#155724';
+    warn.style.borderLeft = '4px solid #27ae60';
+    warn.textContent = '✅ Safety margin is ' + marginPct + '%. Your tires have adequate capacity for your vehicle load.';
+  }
+
+  document.getElementById('load-results').style.display = 'block';
+  drawLoadChart(totalCap, totalLoad, margin);
+}
+
+function resetLoad(){
+  ['load-index','curb-weight','cargo-weight','tongue-weight'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('tire-count').value = '4';
+  document.getElementById('load-results').style.display = 'none';
+  currentLoad = null;
+  const canvas = document.getElementById('loadChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#999';
+  ctx.font = '16px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('Enter your specs to see the load capacity chart', canvas.width/2, canvas.height/2);
+}
+
+function drawLoadChart(cap, load, margin){
+  const canvas = document.getElementById('loadChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const padding = 60;
+  const chartW = canvas.width - padding * 2;
+  const chartH = canvas.height - padding * 2;
+  const max = Math.max(cap, load) * 1.2;
+
+  // Title
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = 'bold 16px Oswald';
+  ctx.textAlign = 'left';
+  ctx.fillText('Load Capacity vs Vehicle Load', padding, 30);
+
+  // Axes
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(padding, padding);
+  ctx.lineTo(padding, canvas.height - padding);
+  ctx.lineTo(canvas.width - padding, canvas.height - padding);
+  ctx.stroke();
+
+  // Bars
+  const barW = 80;
+  const gap = 40;
+  const startX = padding + (chartW - 2 * barW - gap) / 2;
+
+  // Capacity bar
+  const hCap = (cap / max) * chartH;
+  const yCap = canvas.height - padding - hCap;
+  const gradCap = ctx.createLinearGradient(0, yCap, 0, canvas.height - padding);
+  gradCap.addColorStop(0, '#27ae60');
+  gradCap.addColorStop(1, '#2ecc71');
+  ctx.fillStyle = gradCap;
+  ctx.fillRect(startX, yCap, barW, hCap);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.font = 'bold 14px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText(cap.toLocaleString(), startX + barW/2, yCap - 8);
+  ctx.fillText('Capacity', startX + barW/2, canvas.height - padding + 18);
+
+  // Load bar
+  const hLoad = (load / max) * chartH;
+  const yLoad = canvas.height - padding - hLoad;
+  const gradLoad = ctx.createLinearGradient(0, yLoad, 0, canvas.height - padding);
+  gradLoad.addColorStop(0, '#e74c3c');
+  gradLoad.addColorStop(1, '#c0392b');
+  ctx.fillStyle = gradLoad;
+  ctx.fillRect(startX + barW + gap, yLoad, barW, hLoad);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.fillText(load.toLocaleString(), startX + barW + gap + barW/2, yLoad - 8);
+  ctx.fillText('Your Load', startX + barW + gap + barW/2, canvas.height - padding + 18);
+
+  // Margin line
+  if(margin > 0){
+    const hMargin = (margin / max) * chartH;
+    const yMargin = yCap;
+    ctx.fillStyle = 'rgba(39,174,96,0.3)';
+    ctx.fillRect(startX + barW + gap, yCap, barW, hMargin);
+  }
+}
+
+function saveLoad(){
+  if(!currentLoad) return;
+  let hist = JSON.parse(localStorage.getItem(LOAD_KEY) || '[]');
+  hist.unshift(currentLoad);
+  if(hist.length > 20) hist = hist.slice(0, 20);
+  localStorage.setItem(LOAD_KEY, JSON.stringify(hist));
+  renderLoadHistory();
+}
+
+function renderLoadHistory(){
+  const hist = JSON.parse(localStorage.getItem(LOAD_KEY) || '[]');
+  const tbody = document.getElementById('load-history-body');
+  const empty = document.getElementById('load-history-empty');
+  if(hist.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = hist.map((h, i) => {
+    const status = parseFloat(h.marginPct) < 0 ? '❌ Overload' : (parseFloat(h.marginPct) < 10 ? '⚠️ Low' : '✅ OK');
+    return '<tr style="border-bottom:1px solid var(--tsh-border);"><td style="padding:10px;"><strong>LI ' + h.index + '</strong></td><td style="padding:10px;text-align:center;">' + h.perTire.toLocaleString() + ' lbs</td><td style="padding:10px;text-align:center;">' + h.totalLoad.toLocaleString() + ' lbs</td><td style="padding:10px;text-align:center;">' + h.marginPct + '%</td><td style="padding:10px;text-align:center;">' + status + '</td><td style="padding:10px;text-align:center;"><button onclick="deleteLoad(' + i + ')" style="background:none;border:none;color:var(--tsh-accent);cursor:pointer;font-size:1.2rem;">🗑️</button></td></tr>';
+  }).join('');
+}
+
+function deleteLoad(i){
+  let hist = JSON.parse(localStorage.getItem(LOAD_KEY) || '[]');
+  hist.splice(i, 1);
+  localStorage.setItem(LOAD_KEY, JSON.stringify(hist));
+  renderLoadHistory();
+}
+
+function clearLoadHistory(){
+  if(!confirm('Clear all saved calculations?')) return;
+  localStorage.removeItem(LOAD_KEY);
+  renderLoadHistory();
+}
+
+function exportLoad(){
+  if(!currentLoad) return;
+  const lines = [
+    'LOAD INDEX CALCULATION REPORT',
+    'Generated by Tire Size Hub',
+    'Date: ' + new Date().toLocaleString(),
+    '',
+    'Load Index: ' + currentLoad.index,
+    'Tire Count: ' + currentLoad.count,
+    'Per Tire Capacity: ' + currentLoad.perTire.toLocaleString() + ' lbs',
+    'Total Capacity: ' + currentLoad.totalCap.toLocaleString() + ' lbs',
+    'Vehicle Load: ' + currentLoad.totalLoad.toLocaleString() + ' lbs',
+    'Safety Margin: ' + currentLoad.margin.toLocaleString() + ' lbs (' + currentLoad.marginPct + '%)',
+    '',
+    'https://tiresizehub.org/tools/load-index-calculator.html'
+  ];
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'load-index-report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportAllLoad(){
+  const hist = JSON.parse(localStorage.getItem(LOAD_KEY) || '[]');
+  if(hist.length === 0){ alert('No calculations to export.'); return; }
+  const lines = ['TIRE SIZE HUB - LOAD INDEX HISTORY', 'Date: ' + new Date().toLocaleString(), ''];
+  hist.forEach((h, i) => {
+    lines.push((i+1) + '. LI ' + h.index + ' | Per Tire: ' + h.perTire + ' lbs | Margin: ' + h.marginPct + '%');
+  });
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'load-index-history.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Build reference table
+const refBody = document.getElementById('load-table-body');
+if(refBody){
+  const rows = [];
+  for(let i = 0; i < 10; i++){
+    const cells = [];
+    for(let j = 0; j < 4; j++){
+      const idx = 70 + i + j * 10;
+      if(loadIndexMap[idx]){
+        cells.push('<td style="padding:8px;text-align:center;font-weight:600;">' + idx + '</td><td style="padding:8px;text-align:center;color:var(--tsh-text-light);">' + loadIndexMap[idx] + '</td>');
+      }
+    }
+    rows.push('<tr style="border-bottom:1px solid var(--tsh-border);">' + cells.join('') + '</tr>');
+  }
+  refBody.innerHTML = rows.join('');
+}
+
+// Init
+renderLoadHistory();
+const canvas = document.getElementById('loadChart');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#999';
+ctx.font = '16px Inter';
+ctx.textAlign = 'center';
+ctx.fillText('Enter your specs to see the load capacity chart', canvas.width/2, canvas.height/2);
+if(window.initAds) window.initAds();
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Link copied to clipboard!');
+  });
+}
+
+</script>
+
+</body>
+</html>
