@@ -1,0 +1,51 @@
+# tiresizehub
+
+Free online calculators and educational content. Not professional advice.
+
+## Pages
+- Home: https://tiresizehub.org/
+- Tools: https://tiresizehub.org/tools/
+- Blog: https://tiresizehub.org/blog/
+- About: https://tiresizehub.org/about.html
+- Contact: https://tiresizehub.org/contact.html
+- FAQ: https://tiresizehub.org/faq.html
+- Sitemap: https://tiresizehub.org/sitemap.html
+
+## Tools
+- EV Tire Matcher | Tire Size Hub: https://tiresizehub.org/tools/ev-tire-matcher.html
+- Gear Ratio Calculator | Tire Size Hub: https://tiresizehub.org/tools/gear-ratio-calculator.html
+- Load Index Calculator | Tire Size Hub: https://tiresizehub.org/tools/load-index-calculator.html
+- Plus-Sizing Calculator | Tire Size Hub: https://tiresizehub.org/tools/plus-sizing-calculator.html
+- Speed Rating Guide | Tire Size Hub: https://tiresizehub.org/tools/speed-rating-guide.html
+- Tire Size Calculator | Tire Size Hub: https://tiresizehub.org/tools/tire-size-calculator.html
+- Tire Size Comparator | Tire Size Hub: https://tiresizehub.org/tools/tire-size-comparator.html
+- Wheel Offset Calculator | Tire Size Hub: https://tiresizehub.org/tools/wheel-offset-calculator.html
+
+## Articles
+- Plus Sizing Tires Myths Dangers (plus-sizing-tires-myths-dangers) -- Your buddy swears his 20-inch rims make his car handle better. My alignment rack says otherwise. I have been working on cars for fifteen years, and I have seen more problems caused by plus-sizing than -- July 23, 2026
+- Phoenix Heat Tire Blowout Safety (phoenix-heat-tire-blowout-safety) -- Why My Tire Blew Out at 75 MPH During Phoenix's Hottest Day on Record Derek Armstrong I was driving home from work on I-10 at 5:30 PM when my rear tire exploded. Not a slow leak. Not a gradual flatten -- July 06, 2026
+- Tire Shop Sold 19S Manual Said 17S (tire-shop-sold-19s-manual-said-17s) -- "You'll get way better handling with the 19s," the guy said, leaning against the counter with the confidence of someone who had never read my owner's manual. "The 17s are fine for grandma, but you wan -- July 06, 2026
+- The Winter Tires I Bought Online That Did Not Fit And The Lesson I Learned (the-winter-tires-i-bought-online-that-did-not-fit-and-the-lesson-i-learned) -- The Winter Tires I Bought Online That Did Not Fit and the Lesson I Learned I was standing in my garage in Detroit at 7:00 AM on a Saturday in November, holding a winter tire that was supposed to fit m -- June 29, 2026
+- My Mechanic Said My Tires Were Fine (my-mechanic-said-my-tires-were-fine) -- My Mechanic Said My Tires Were Fine. My Speedometer Said I Was Going 72. I Was Actually Going 79. 7 miles per hour. That's how much my speedometer was off. At 70 mph on the dial, I was actually going -- June 24, 2026
+- 2026 Tire Trends: All-Weather Tires Are Eating the All-Season Market | Tire Size Hub (2026-tire-trends-all-weather-tires-are-eating-the-) -- The tire industry moves slow. Most tire designs stick around for five to seven years. New categories emerge rarely. But when they do, they disrupt everything.... -- June 13, 2024
+- EV Tire Matcher Tool Guide: Finding the Right Rubber for Your Electric Car | Tire Size Hub (ev-tire-matcher-tool-guide-finding-the-right-rubbe) -- The guy at the tire shop shrugged. “I don’t know what an EV tire is,” he said. “A tire is a tire.” The customer, a woman named Rachel who drove a Ford Mustang... -- June 13, 2024
+- How to Use the Tire Size Calculator to Compare Two Sizes Side by Side | Tire Size Hub (how-to-use-the-tire-size-calculator-to-compare-two) -- The guy on the forum posted a picture of his truck. New wheels. New tires. He wrote: “Just installed 285/70R17s on my Tacoma. No rub. Looks great.” Fifty... -- June 13, 2024
+- Sustainable Tires and EU Labeling: What American Buyers Should Know | Tire Size Hub (sustainable-tires-and-eu-labeling-what-american-bu) -- The email came from a reader in California. He had just bought a set of tires with an “A” rating for fuel efficiency and a “B” for wet grip. There was a... -- June 13, 2024
+- Using the Plus-Sizing Calculator to Plan Your Upgrade Without Rubbing | Tire Size Hub (using-the-plus-sizing-calculator-to-plan-your-upgr) -- The plus-sizing calculator lives in the same family as the tire size calculator, but it asks a different question. Not “what size fits my car?” but “if I go up... -- June 13, 2024
+- Walking Through the Wheel Offset Calculator: Will These Rims Actually Fit? | Tire Size Hub (walking-through-the-wheel-offset-calculator-will-t) -- The boxes arrived on a Wednesday. Four wheels, shiny black, 20x9 with a -12 offset. The guy who ordered them, a young man named Tyler, had a 2019 Silverado... -- June 13, 2024
+- Why 19‑Inch Wheels Became the Default (And Why 18s Might Be Better) | Tire Size Hub (why-19inch-wheels-became-the-default-and-why-18s-m) -- A customer walked into my office last year with a brand new BMW 3 Series. Beautiful car. Tanzanite blue. Black leather. And 19‑inch wheels with run‑flat tires... -- June 13, 2024
+- All-Season vs. All-Weather vs. Winter: The 2026 Tire Category Guide | Tire Size Hub (all-season-vs-all-weather-vs-winter-the-2026-tire-) -- The woman on the phone was confused. She lived in Michigan. Her car had all-season tires. She drove to work every day, rain or shine. Last winter, she slid... -- June 12, 2024
+- EV Tire Revolution: Why Electric Vehicles Demand Stronger, Quieter, More Efficient Tires | Tire Size Hub (ev-tire-revolution-why-electric-vehicles-demand-st) -- The first time I drove a Tesla Model 3, I was impressed by the acceleration. The second time I drove one, I noticed the tire noise. Not wind noise. Not motor... -- June 12, 2024
+- Load Index and Speed Rating: The Safety Stats Most Drivers Ignore | Tire Size Hub (load-index-and-speed-rating-the-safety-stats-most-) -- The tow truck driver dropped the Ford F-250 at the shop. The left rear tire had exploded on I-75. The sidewall was shredded. The owner, a guy named Rick, was... -- June 12, 2024
+- Off-Road Tire Sizing: 33 vs 35 vs 37 Inch Tires — Gears, Clearance, and MPG Reality | Tire Size Hub (off-road-tire-sizing-33-vs-35-vs-37-inch-tires-gea) -- The Facebook message came from a guy named Matt. He had a 2019 Jeep Wrangler JLU. Stock suspension. Stock gears. He wanted to skip 33s and go straight to 35s.... -- June 12, 2024
+- Tire Aspect Ratio Deep Dive: Why 45‑Series Rides Differently Than 60‑Series | Tire Size Hub (tire-aspect-ratio-deep-dive-why-45series-rides-dif) -- The first time someone told me they wanted “45‑series tires” for their sedan, I asked why. They said “because they look sporty.” I asked if they'd ever driven... -- June 12, 2024
+- Wheel Offset, Backspacing, and Clearance: The Geometry of Proper Fitment | Tire Size Hub (wheel-offset-backspacing-and-clearance-the-geometr) -- The photos came in at 9 PM on a Friday. A guy named Tyler had just installed a new set of wheels on his lifted Silverado. He was thrilled with the look. Then... -- June 12, 2024
+- Converting Tire Sizes for Winter: Why Your Summer and Winter Sizes Shouldn’t Match | Tire Size Hub (converting-tire-sizes-for-winter-why-your-summer-a) -- The guy on the phone was angry. He had a BMW 3 Series with the factory 19-inch wheels and low-profile summer tires. He’d just spent $1,600 on a set of winter... -- June 11, 2024
+- How to Read a Tire Sidewall Like a Mechanic in 60 Seconds | Tire Size Hub (how-to-read-a-tire-sidewall-like-a-mechanic-in-60-) -- The first time someone showed me a tire sidewall up close, I was sixteen years old, standing in my dad’s garage in Sterling Heights. He pointed at a string of... -- June 11, 2024
+- How to Use a Tire Size Calculator Without Confusing Yourself | Tire Size Hub (how-to-use-a-tire-size-calculator-without-confusin) -- You pull up a tire size calculator. You stare at the input boxes. You see “Tire Size 1” and “Tire Size 2.” You have no idea what to type. Sound familiar? A... -- June 11, 2024
+- Step-by-Step: Matching Wheel Offset and Backspacing for Your Lifted Truck | Tire Size Hub (step-by-step-matching-wheel-offset-and-backspacing) -- My phone rang at 8:30 on a Saturday morning. It was Dave. He’d just put a 4-inch lift on his Ram 1500. The truck looked great. Then he bolted on a set of... -- June 11, 2024
+- A Track Day Newbie Destroyed His Tires Because He Ignored Speed Ratings | Tire Size Hub (a-track-day-newbie-destroyed-his-tires-because-he-) -- I got a text from a guy named Kevin on a Sunday evening. He'd just gotten back from his first track day at Grattan Raceway, about an hour west of Grand Rapids.... -- June 10, 2024
+- How a Wrong Tire Size Cost a Subaru Owner His Transmission (And $4,000) | Tire Size Hub (how-a-wrong-tire-size-cost-a-subaru-owner-his-tran) -- The tow truck driver called it in around 6 PM on a Thursday. “Gary’s Transmission, we got a silver Outback, blew the center diff somewhere around mile marker... -- June 10, 2024
+- The Jeep Owner Who Learned 35s Aren't Just About Looks | Tire Size Hub (the-jeep-owner-who-learned-35s-arent-just-about-lo) -- Jake had a 2018 Jeep Wrangler JLU. Lifted two inches. Aftermarket bumpers. A winch he'd used exactly once, to pull a bush out of his grandmother's yard. He... -- June 10, 2024
+- The Tesla Owner's Surprise: His EV Needed Special Tires He'd Never Heard Of | Tire Size Hub (the-tesla-owners-surprise-his-ev-needed-special-ti) -- The text message came from my cousin Mark. He’d bought a used Tesla Model 3 about eight months ago. Loved it. Charged it at home. Drove it everywhere. Then one... -- June 10, 2024
+- When a Tire Shop Sold Him the Wrong Load Rating for His Truck | Tire Size Hub (when-a-tire-shop-sold-him-the-wrong-load-rating-fo) -- The call came in on a Tuesday. A guy named Dave, someone I knew from a local Ford truck forum, had just spent $1,200 on a new set of tires for his F-150. He... -- June 10, 2024
