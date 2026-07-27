@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>Wheel Offset Calculator | Tire Size Hub</title>
+<meta name="description" content="See how new wheels will fit your vehicle. Calculate inner clearance, outer position, and scrub radius changes before you buy.">
+<meta property="og:title" content="Wheel Offset Calculator | Tire Size Hub">
+<meta property="og:description" content="Check wheel fitment, clearance, and scrub radius before buying new wheels.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/wheel-offset-calculator.html">
+<link rel="canonical" href="https://tiresizehub.org/tools/wheel-offset-calculator.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Wheel Offset Calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Calculate wheel offset changes, inner clearance, outer position, and scrub radius for new wheel fitment.",
+  "url": "https://tiresizehub.org/tools/wheel-offset-calculator.html"
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+<meta property="og:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-tool-page">
+  <div class="tsh-tool-header">
+    <h1>📐 Wheel Offset Calculator</h1>
+    <p>Enter your stock wheel specs and your new wheel specs. See exactly how much the wheel moves inward and outward — and whether it will rub.</p>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+  <!-- Dual Input -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+    <div class="tsh-input-panel" style="border-left:4px solid var(--tsh-accent);">
+      <h3>🔵 Stock Wheel</h3>
+      <div class="tsh-form-group">
+        <label>Wheel Width (inches)</label>
+        <input type="number" id="stock-width" placeholder="e.g. 8.5" min="4" max="16" step="0.5">
+      </div>
+      <div class="tsh-form-group">
+        <label>Offset (mm)</label>
+        <input type="number" id="stock-offset" placeholder="e.g. 24" min="-50" max="80">
+      </div>
+      <div class="tsh-form-group">
+        <label>Backspacing (inches) — optional</label>
+        <input type="number" id="stock-bs" placeholder="e.g. 5.5" min="3" max="8" step="0.1">
+      </div>
+    </div>
+    <div class="tsh-input-panel" style="border-left:4px solid #0f3460;">
+      <h3>🟠 New Wheel</h3>
+      <div class="tsh-form-group">
+        <label>Wheel Width (inches)</label>
+        <input type="number" id="new-width" placeholder="e.g. 9" min="4" max="16" step="0.5">
+      </div>
+      <div class="tsh-form-group">
+        <label>Offset (mm)</label>
+        <input type="number" id="new-offset" placeholder="e.g. 12" min="-50" max="80">
+      </div>
+      <div class="tsh-form-group">
+        <label>Backspacing (inches) — optional</label>
+        <input type="number" id="new-bs" placeholder="e.g. 5.0" min="3" max="8" step="0.1">
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px;">
+    <button class="tsh-btn-primary" onclick="calculateOffset()" style="padding:14px 48px;font-size:1.1rem;">Calculate Fitment</button>
+    <button class="tsh-btn-secondary" onclick="resetOffset()">Reset</button>
+  </div>
+
+  <!-- Results -->
+  <div id="offset-results" style="display:none;margin-bottom:32px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:16px;margin-bottom:24px;">
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Inner Clearance Change</div>
+        <div id="res-inner" style="font-family:var(--tsh-font-heading);font-size:1.8rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">inches</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Outer Position Change</div>
+        <div id="res-outer" style="font-family:var(--tsh-font-heading);font-size:1.8rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">inches</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Backspacing Change</div>
+        <div id="res-bs" style="font-family:var(--tsh-font-heading);font-size:1.8rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">inches</div>
+      </div>
+      <div style="padding:20px;background:var(--tsh-card-bg);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Scrub Radius Change</div>
+        <div id="res-scrub" style="font-family:var(--tsh-font-heading);font-size:1.8rem;color:var(--tsh-primary);font-weight:700;">--</div>
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);">inches</div>
+      </div>
+    </div>
+
+    <div id="offset-warning" style="padding:14px 18px;border-radius:var(--tsh-radius);margin-bottom:16px;font-size:0.95rem;font-weight:500;"></div>
+
+    <div style="display:flex;gap:8px;">
+      <button class="tsh-btn-secondary" onclick="saveOffset()">💾 Save Calculation</button>
+      <button class="tsh-btn-secondary" onclick="exportOffset()">📄 Export Report</button>
+      <button class="tsh-btn-secondary" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Visual Diagram -->
+
+  <!-- How It Works -->
+  <div style="margin-bottom:40px;padding:28px;background:var(--tsh-secondary);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔧 How It Works</h3>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;">Wheel offset is the distance from the wheel's mounting surface to its centerline, measured in millimeters. Positive offset pushes the wheel inward toward the suspension; negative offset pushes it outward. Backspacing is the distance from the mounting surface to the inner lip, measured in inches. This calculator compares your stock wheel to a new wheel and shows exactly how much inner clearance you gain or lose.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;"><strong>How to use:</strong> Enter your stock wheel width and offset, then your new wheel specs. If you know backspacing, enter it — otherwise the calculator derives it. Click Calculate to see inner clearance, outer position, backspacing change, and scrub radius shift.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text-light);line-height:1.7;"><strong>Tip:</strong> Inner clearance under 0.3" may cause suspension contact. Outer position over 1.5" may rub fenders. Scrub radius changes over 0.5" can affect steering feel and torque steer.</p>
+  </div>
+  <div class="tsh-chart-container">
+    <h3>🎨 Wheel Position Visualization</h3>
+    <canvas id="offsetVis" width="800" height="400"></canvas>
+    <p style="text-align:center;color:var(--tsh-text-light);font-size:0.85rem;margin-top:8px;">Top-down view showing stock wheel (orange) vs new wheel (blue) relative to the hub face.</p>
+  </div>
+
+  <!-- History -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🕐 Saved Calculations</h3>
+    <div id="offset-history" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:left;">Stock</th>
+            <th style="padding:10px;text-align:left;">New</th>
+            <th style="padding:10px;text-align:center;">Inner</th>
+            <th style="padding:10px;text-align:center;">Outer</th>
+            <th style="padding:10px;text-align:center;">Status</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="offset-history-body"></tbody>
+      </table>
+    </div>
+    <div id="offset-history-empty" style="text-align:center;padding:24px;color:var(--tsh-text-light);">No saved calculations yet.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="tsh-btn-secondary" onclick="clearOffsetHistory()">🗑️ Clear All</button>
+      <button class="tsh-btn-secondary" onclick="exportAllOffset()">📄 Export All</button>
+    </div>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+
+  <!-- Related -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-top:48px;">
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">📚 Related Articles</h3>
+      <div class="tsh-related-list">
+        <a href="../blog/wheel-offset-backspacing-and-clearance-the-geometr.html" class="tsh-related-item">
+          <img src="../images/blog/wheel-offset-backspacing-and-clearance-the-geometr.jpg" alt="Offset geometry" width="60" height="60" loading="lazy">
+          <div><h4>Wheel Offset, Backspacing, and Clearance: The Geometry of Proper Fitment</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Concept</p></div>
+        </a>
+        <a href="../blog/walking-through-the-wheel-offset-calculator-will-t.html" class="tsh-related-item">
+          <img src="../images/blog/walking-through-the-wheel-offset-calculator-will-t.jpg" alt="Offset calculator guide" width="60" height="60" loading="lazy">
+          <div><h4>Walking Through the Wheel Offset Calculator: Will These Rims Actually Fit?</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Tool Guide</p></div>
+        </a>
+        <a href="../blog/step-by-step-matching-wheel-offset-and-backspacing.html" class="tsh-related-item">
+          <img src="../images/blog/step-by-step-matching-wheel-offset-and-backspacing.jpg" alt="Wheel offset tutorial" width="60" height="60" loading="lazy">
+          <div><h4>Step-by-Step: Matching Wheel Offset and Backspacing for Your Lifted Truck</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Tutorial</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">🛠️ Recommended Tools</h3>
+      <div class="tsh-tool-rec-list">
+        <a href="tire-size-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📐</div>
+          <div><h4>Tire Size Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check tire dimensions.</p></div>
+        </a>
+        <a href="tire-size-comparator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚖️</div>
+          <div><h4>Tire Size Comparator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Compare tire sizes.</p></div>
+        </a>
+        <a href="gear-ratio-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚙️</div>
+          <div><h4>Gear Ratio Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check RPM after changes.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+const OFFSET_KEY = 'tsh_offset_history';
+let currentOffset = null;
+
+function calculateOffset(){
+  const sw = parseFloat(document.getElementById('stock-width').value);
+  const so = parseFloat(document.getElementById('stock-offset').value);
+  const sbs = parseFloat(document.getElementById('stock-bs').value);
+  const nw = parseFloat(document.getElementById('new-width').value);
+  const no = parseFloat(document.getElementById('new-offset').value);
+  const nbs = parseFloat(document.getElementById('new-bs').value);
+
+  if(!sw || !so || !nw || !no){
+    alert('Please enter width and offset for both wheels.');
+    return;
+  }
+
+  // Calculate backspacing if not provided
+  const stockBS = sbs || (sw / 2) + (so / 25.4);
+  const newBS = nbs || (nw / 2) + (no / 25.4);
+
+  const innerChange = ((nw / 2) - (no / 25.4)) - ((sw / 2) - (so / 25.4));
+  const outerChange = ((nw / 2) + (no / 25.4)) - ((sw / 2) + (so / 25.4));
+  const bsChange = newBS - stockBS;
+  const scrubChange = (no - so) / 25.4;
+
+  currentOffset = {
+    stock: sw + 'x' + so + 'mm',
+    stockBS: stockBS.toFixed(2),
+    new: nw + 'x' + no + 'mm',
+    newBS: newBS.toFixed(2),
+    inner: innerChange.toFixed(2),
+    outer: outerChange.toFixed(2),
+    bs: bsChange.toFixed(2),
+    scrub: scrubChange.toFixed(2),
+    timestamp: new Date().toISOString()
+  };
+
+  document.getElementById('res-inner').textContent = (innerChange > 0 ? '+' : '') + innerChange.toFixed(2);
+  document.getElementById('res-inner').style.color = innerChange < -0.3 ? '#e74c3c' : (innerChange < 0 ? '#f39c12' : '#27ae60');
+  document.getElementById('res-outer').textContent = (outerChange > 0 ? '+' : '') + outerChange.toFixed(2);
+  document.getElementById('res-outer').style.color = outerChange > 1.5 ? '#e74c3c' : (outerChange > 0.75 ? '#f39c12' : '#27ae60');
+  document.getElementById('res-bs').textContent = (bsChange > 0 ? '+' : '') + bsChange.toFixed(2);
+  document.getElementById('res-scrub').textContent = (scrubChange > 0 ? '+' : '') + scrubChange.toFixed(2);
+
+  const warn = document.getElementById('offset-warning');
+  const issues = [];
+  if(innerChange < -0.3) issues.push('Inner clearance reduced by more than 0.3". May hit suspension.');
+  if(outerChange > 1.5) issues.push('Outer position increased by more than 1.5". May rub fenders.');
+  if(Math.abs(scrubChange) > 0.5) issues.push('Scrub radius changed by more than 0.5". Steering feel may be affected.');
+
+  if(issues.length > 0){
+    warn.style.display = 'block';
+    warn.style.background = '#fff3cd';
+    warn.style.color = '#856404';
+    warn.style.borderLeft = '4px solid #f39c12';
+    warn.innerHTML = '⚠️ ' + issues.join('<br>⚠️ ');
+  } else {
+    warn.style.display = 'block';
+    warn.style.background = '#d4edda';
+    warn.style.color = '#155724';
+    warn.style.borderLeft = '4px solid #27ae60';
+    warn.textContent = '✅ This wheel change appears safe for most vehicles. Always verify with a test fit before purchasing.';
+  }
+
+  document.getElementById('offset-results').style.display = 'block';
+  drawOffsetVis(sw, so, nw, no);
+}
+
+function resetOffset(){
+  ['stock-width','stock-offset','stock-bs','new-width','new-offset','new-bs'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('offset-results').style.display = 'none';
+  currentOffset = null;
+  const canvas = document.getElementById('offsetVis');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#999';
+  ctx.font = '16px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('Enter wheel specs and click Calculate to see the visualization', canvas.width/2, canvas.height/2);
+}
+
+function drawOffsetVis(sw, so, nw, no){
+  const canvas = document.getElementById('offsetVis');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2 + 20;
+  const scale = 12; // pixels per inch
+
+  // Hub face line
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.setLineDash([5, 5]);
+  ctx.beginPath();
+  ctx.moveTo(cx, 60);
+  ctx.lineTo(cx, canvas.height - 40);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#333';
+  ctx.font = '12px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('HUB FACE', cx, 55);
+
+  // Stock wheel
+  const stockW = sw * scale;
+  const stockOffsetPx = so / 25.4 * scale;
+  const stockLeft = cx - stockW/2 + stockOffsetPx;
+  ctx.strokeStyle = '#ff6b35';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(stockLeft, cy - 40, stockW, 80);
+  ctx.fillStyle = 'rgba(255,107,53,0.1)';
+  ctx.fillRect(stockLeft, cy - 40, stockW, 80);
+  ctx.fillStyle = '#ff6b35';
+  ctx.font = 'bold 13px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('STOCK: ' + sw + '" ET' + so, stockLeft + stockW/2, cy - 50);
+
+  // New wheel
+  const newW = nw * scale;
+  const newOffsetPx = no / 25.4 * scale;
+  const newLeft = cx - newW/2 + newOffsetPx;
+  ctx.strokeStyle = '#0f3460';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(newLeft, cy + 20, newW, 80);
+  ctx.fillStyle = 'rgba(15,52,96,0.1)';
+  ctx.fillRect(newLeft, cy + 20, newW, 80);
+  ctx.fillStyle = '#0f3460';
+  ctx.font = 'bold 13px Inter';
+  ctx.fillText('NEW: ' + nw + '" ET' + no, newLeft + newW/2, cy + 110);
+
+  // Center points
+  ctx.fillStyle = '#ff6b35';
+  ctx.beginPath();
+  ctx.arc(cx + stockOffsetPx, cy, 4, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#0f3460';
+  ctx.beginPath();
+  ctx.arc(cx + newOffsetPx, cy + 60, 4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function saveOffset(){
+  if(!currentOffset) return;
+  let hist = JSON.parse(localStorage.getItem(OFFSET_KEY) || '[]');
+  hist.unshift(currentOffset);
+  if(hist.length > 20) hist = hist.slice(0, 20);
+  localStorage.setItem(OFFSET_KEY, JSON.stringify(hist));
+  renderOffsetHistory();
+}
+
+function renderOffsetHistory(){
+  const hist = JSON.parse(localStorage.getItem(OFFSET_KEY) || '[]');
+  const tbody = document.getElementById('offset-history-body');
+  const empty = document.getElementById('offset-history-empty');
+  if(hist.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = hist.map((h, i) => {
+    const safe = parseFloat(h.outer) > 1.5 || parseFloat(h.inner) < -0.3 ? '⚠️ Check' : '✅ OK';
+    return '<tr style="border-bottom:1px solid var(--tsh-border);"><td style="padding:10px;"><strong>' + h.stock + '</strong><br><small>BS: ' + h.stockBS + '"</small></td><td style="padding:10px;"><strong>' + h.new + '</strong><br><small>BS: ' + h.newBS + '"</small></td><td style="padding:10px;text-align:center;">' + h.inner + '"</td><td style="padding:10px;text-align:center;">' + h.outer + '"</td><td style="padding:10px;text-align:center;">' + safe + '</td><td style="padding:10px;text-align:center;"><button onclick="deleteOffset(' + i + ')" style="background:none;border:none;color:var(--tsh-accent);cursor:pointer;font-size:1.2rem;">🗑️</button></td></tr>';
+  }).join('');
+}
+
+function deleteOffset(i){
+  let hist = JSON.parse(localStorage.getItem(OFFSET_KEY) || '[]');
+  hist.splice(i, 1);
+  localStorage.setItem(OFFSET_KEY, JSON.stringify(hist));
+  renderOffsetHistory();
+}
+
+function clearOffsetHistory(){
+  if(!confirm('Clear all saved calculations?')) return;
+  localStorage.removeItem(OFFSET_KEY);
+  renderOffsetHistory();
+}
+
+function exportOffset(){
+  if(!currentOffset) return;
+  const lines = [
+    'WHEEL OFFSET CALCULATION REPORT',
+    'Generated by Tire Size Hub',
+    'Date: ' + new Date().toLocaleString(),
+    '',
+    'STOCK WHEEL: ' + currentOffset.stock,
+    '  Backspacing: ' + currentOffset.stockBS + '"',
+    '',
+    'NEW WHEEL: ' + currentOffset.new,
+    '  Backspacing: ' + currentOffset.newBS + '"',
+    '',
+    'CHANGES:',
+    '  Inner Clearance: ' + currentOffset.inner + '"',
+    '  Outer Position: ' + currentOffset.outer + '"',
+    '  Backspacing: ' + currentOffset.bs + '"',
+    '  Scrub Radius: ' + currentOffset.scrub + '"',
+    '',
+    'https://tiresizehub.org/tools/wheel-offset-calculator.html'
+  ];
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wheel-offset-report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportAllOffset(){
+  const hist = JSON.parse(localStorage.getItem(OFFSET_KEY) || '[]');
+  if(hist.length === 0){ alert('No calculations to export.'); return; }
+  const lines = ['TIRE SIZE HUB - WHEEL OFFSET HISTORY', 'Date: ' + new Date().toLocaleString(), ''];
+  hist.forEach((h, i) => {
+    lines.push((i+1) + '. ' + h.stock + ' -> ' + h.new + ' | Inner: ' + h.inner + '" | Outer: ' + h.outer + '"');
+  });
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wheel-offset-history.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Init
+renderOffsetHistory();
+const canvas = document.getElementById('offsetVis');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#999';
+ctx.font = '16px Inter';
+ctx.textAlign = 'center';
+ctx.fillText('Enter wheel specs and click Calculate to see the visualization', canvas.width/2, canvas.height/2);
+if(window.initAds) window.initAds();
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Link copied to clipboard!');
+  });
+}
+
+</script>
+
+</body>
+</html>
