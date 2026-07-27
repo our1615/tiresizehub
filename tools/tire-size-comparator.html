@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../style.css">
+<title>Tire Size Comparator | Tire Size Hub</title>
+<meta name="description" content="Compare two tire sizes side by side. See diameter, width, sidewall, and revs per mile differences instantly.">
+<meta property="og:title" content="Tire Size Comparator | Tire Size Hub">
+<meta property="og:description" content="Side-by-side tire size comparison with visual charts.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tiresizehub.org/tools/tire-size-comparator.html">
+<link rel="canonical" href="https://tiresizehub.org/tools/tire-size-comparator.html">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Tire Size Comparator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "description": "Compare two tire sizes side by side and see differences in diameter, width, sidewall, and revs per mile.",
+  "url": "https://tiresizehub.org/tools/tire-size-comparator.html"
+}
+</script>
+<script src="../ads-loader.js" defer></script>
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tire Size Hub">
+<meta name="twitter:description" content="Free tire calculators and expert guides.">
+<meta name="twitter:image" content="https://tiresizehub.org/images/og-home.jpg">
+<meta property="og:image" content="https://tiresizehub.org/images/og-home.jpg">
+</head>
+<body>
+
+<nav class="tsh-nav">
+  <div class="tsh-nav-container">
+    <a href="../index.html" class="tsh-logo">Tire Size <span>Hub</span></a>
+    <button class="tsh-nav-toggle" onclick="document.querySelector('.tsh-nav-links').classList.toggle('active')">☰</button>
+    <ul class="tsh-nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="./index.html">Tools</a></li>
+      <li><a href="../blog/index.html">Blog</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../faq.html">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tsh-tool-page">
+  <div class="tsh-tool-header">
+    <h1>⚖️ Tire Size Comparator</h1>
+    <p>Compare two tire sizes side by side. See the exact difference in diameter, width, sidewall, and revolutions per mile.</p>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_top" data-ad-slot="tool_top"></div>
+
+  <!-- Dual Input Panel -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:32px;">
+    <div class="tsh-input-panel" style="border-top:4px solid var(--tsh-accent);">
+      <h3>🔵 Tire A (Stock / Current)</h3>
+      <div class="tsh-form-group">
+        <label>Width (mm)</label>
+        <input type="number" id="width-a" placeholder="e.g. 265" min="100" max="500">
+      </div>
+      <div class="tsh-form-group">
+        <label>Aspect Ratio (%)</label>
+        <input type="number" id="aspect-a" placeholder="e.g. 70" min="20" max="85">
+      </div>
+      <div class="tsh-form-group">
+        <label>Rim (inches)</label>
+        <input type="number" id="rim-a" placeholder="e.g. 17" min="10" max="30">
+      </div>
+    </div>
+
+    <div class="tsh-input-panel" style="border-top:4px solid #0f3460;">
+      <h3>🟠 Tire B (New / Compare)</h3>
+      <div class="tsh-form-group">
+        <label>Width (mm)</label>
+        <input type="number" id="width-b" placeholder="e.g. 285" min="100" max="500">
+      </div>
+      <div class="tsh-form-group">
+        <label>Aspect Ratio (%)</label>
+        <input type="number" id="aspect-b" placeholder="e.g. 70" min="20" max="85">
+      </div>
+      <div class="tsh-form-group">
+        <label>Rim (inches)</label>
+        <input type="number" id="rim-b" placeholder="e.g. 17" min="10" max="30">
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:32px;">
+    <button class="tsh-btn-primary" onclick="compare()" style="padding:14px 48px;font-size:1.1rem;">Compare Sizes</button>
+    <button class="tsh-btn-secondary" onclick="resetForm()">Reset Both</button>
+  </div>
+
+  <!-- Comparison Results -->
+  <div id="results-area" style="display:none;margin-bottom:32px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div class="tsh-input-panel" style="text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Tire A</div>
+        <div id="label-a" style="font-family:var(--tsh-font-heading);font-size:1.4rem;color:var(--tsh-accent);font-weight:700;">--</div>
+      </div>
+      <div class="tsh-input-panel" style="text-align:center;background:var(--tsh-primary);color:var(--tsh-white);">
+        <div style="font-size:0.8rem;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Difference</div>
+        <div id="label-diff" style="font-family:var(--tsh-font-heading);font-size:1.4rem;color:var(--tsh-accent);font-weight:700;">--</div>
+      </div>
+      <div class="tsh-input-panel" style="text-align:center;">
+        <div style="font-size:0.8rem;color:var(--tsh-text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Tire B</div>
+        <div id="label-b" style="font-family:var(--tsh-font-heading);font-size:1.4rem;color:#0f3460;font-weight:700;">--</div>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.95rem;background:var(--tsh-white);border-radius:var(--tsh-radius-lg);overflow:hidden;box-shadow:var(--tsh-shadow);">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:14px;text-align:left;">Metric</th>
+            <th style="padding:14px;text-align:center;">Tire A</th>
+            <th style="padding:14px;text-align:center;">Tire B</th>
+            <th style="padding:14px;text-align:center;">Difference</th>
+            <th style="padding:14px;text-align:center;">Change</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Overall Diameter</td>
+            <td id="td-dia-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-dia-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-dia-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-dia-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Circumference</td>
+            <td id="td-circ-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-circ-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-circ-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-circ-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Revs per Mile</td>
+            <td id="td-revs-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-revs-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-revs-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-revs-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Sidewall Height</td>
+            <td id="td-wall-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-wall-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-wall-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-wall-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--tsh-border);">
+            <td style="padding:12px 14px;font-weight:600;">Section Width</td>
+            <td id="td-width-a" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-width-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-width-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-width-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;font-weight:600;">Speedometer @ 60mph</td>
+            <td id="td-speed-a" style="padding:12px 14px;text-align:center;">60 mph</td>
+            <td id="td-speed-b" style="padding:12px 14px;text-align:center;">--</td>
+            <td id="td-speed-diff" style="padding:12px 14px;text-align:center;font-weight:600;">--</td>
+            <td id="td-speed-pct" style="padding:12px 14px;text-align:center;">--</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="warning-box" style="display:none;margin-top:16px;padding:14px 18px;border-radius:var(--tsh-radius);font-size:0.9rem;font-weight:500;"></div>
+
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button class="tsh-btn-secondary" onclick="saveComparison()">💾 Save Comparison</button>
+      <button class="tsh-btn-secondary" onclick="exportComparison()">📄 Export Report</button>
+      <button class="tsh-btn-secondary" onclick="copyLink()">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Chart -->
+
+  <!-- How It Works -->
+  <div style="margin-bottom:40px;padding:28px;background:var(--tsh-secondary);border-radius:var(--tsh-radius-lg);border:1px solid var(--tsh-border);">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🔧 How It Works</h3>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;">This tool calculates the exact dimensional differences between two tire sizes using the same formula as the single calculator. It then derives the speedometer error by comparing the revolutions per mile — if Tire B is larger, it rotates fewer times per mile, so your speedometer reads slower than actual speed.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text);line-height:1.7;margin-bottom:12px;"><strong>How to use:</strong> Enter the specs for your current tire (Tire A) and the tire you are considering (Tire B). Click Compare to see diameter, circumference, width, and sidewall differences. Pay attention to the speedometer error and AWD warnings.</p>
+    <p style="font-size:0.95rem;color:var(--tsh-text-light);line-height:1.7;"><strong>Tip:</strong> On AWD vehicles, keep diameter difference under 0.25" to avoid damaging the center differential. On FWD/RWD, up to 3% is usually acceptable.</p>
+  </div>
+  <div class="tsh-chart-container">
+    <h3>📊 Side-by-Side Visual</h3>
+    <canvas id="compareChart" width="800" height="350"></canvas>
+  </div>
+
+  <!-- History -->
+  <div style="margin-bottom:40px;">
+    <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:16px;">🕐 Saved Comparisons</h3>
+    <div id="comp-history" style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <thead>
+          <tr style="background:var(--tsh-primary);color:var(--tsh-white);">
+            <th style="padding:10px;text-align:left;">Tire A</th>
+            <th style="padding:10px;text-align:left;">Tire B</th>
+            <th style="padding:10px;text-align:center;">Dia Diff</th>
+            <th style="padding:10px;text-align:center;">Width Diff</th>
+            <th style="padding:10px;text-align:center;">Speedo Error</th>
+            <th style="padding:10px;text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="comp-history-body"></tbody>
+      </table>
+    </div>
+    <div id="comp-history-empty" style="text-align:center;padding:24px;color:var(--tsh-text-light);">No saved comparisons yet.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;">
+      <button class="tsh-btn-secondary" onclick="clearCompHistory()">🗑️ Clear All</button>
+      <button class="tsh-btn-secondary" onclick="exportAllComps()">📄 Export All</button>
+    </div>
+  </div>
+
+  <div class="tsh-ad-slot" id="tool_bottom" data-ad-slot="tool_bottom"></div>
+
+  <!-- Related -->
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:40px;margin-top:48px;">
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">📚 Related Articles</h3>
+      <div class="tsh-related-list">
+        <a href="../blog/how-to-use-the-tire-size-calculator-to-compare-two.html" class="tsh-related-item">
+          <img src="../images/blog/how-to-use-the-tire-size-calculator-to-compare-two.jpg" alt="Compare tutorial" width="60" height="60" loading="lazy">
+          <div><h4>How to Use the Tire Size Calculator to Compare Two Sizes</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Tool Guide</p></div>
+        </a>
+        <a href="../blog/how-a-wrong-tire-size-cost-a-subaru-owner-his-tran.html" class="tsh-related-item">
+          <img src="../images/blog/how-a-wrong-tire-size-cost-a-subaru-owner-his-tran.jpg" alt="Subaru story" width="60" height="60" loading="lazy">
+          <div><h4>How a Wrong Tire Size Cost a Subaru Owner His Transmission</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+        <a href="../blog/the-jeep-owner-who-learned-35s-arent-just-about-lo.html" class="tsh-related-item">
+          <img src="../images/blog/the-jeep-owner-who-learned-35s-arent-just-about-lo.jpg" alt="Jeep story" width="60" height="60" loading="lazy">
+          <div><h4>The Jeep Owner Who Learned 35s Aren't Just About Looks</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Story</p></div>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-family:var(--tsh-font-heading);font-size:1.2rem;color:var(--tsh-primary);margin-bottom:20px;">🛠️ Recommended Tools</h3>
+      <div class="tsh-tool-rec-list">
+        <a href="tire-size-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📐</div>
+          <div><h4>Tire Size Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Single tire calculations.</p></div>
+        </a>
+        <a href="plus-sizing-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">📏</div>
+          <div><h4>Plus-Sizing Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Plan wheel upgrades.</p></div>
+        </a>
+        <a href="gear-ratio-calculator.html" class="tsh-tool-rec-item">
+          <div class="tsh-tool-icon" style="width:44px;height:44px;font-size:1.2rem;">⚙️</div>
+          <div><h4>Gear Ratio Calculator</h4><p style="font-size:0.8rem;color:var(--tsh-text-light);">Check RPM changes.</p></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="tsh-footer">
+  <div class="tsh-footer-grid">
+    <div>
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="tire-size-calculator.html">Tire Size Calculator</a></li>
+        <li><a href="tire-size-comparator.html">Tire Size Comparator</a></li>
+        <li><a href="gear-ratio-calculator.html">Gear Ratio Calculator</a></li>
+        <li><a href="wheel-offset-calculator.html">Wheel Offset Calculator</a></li>
+        <li><a href="load-index-calculator.html">Load Index Calculator</a></li>
+        <li><a href="speed-rating-guide.html">Speed Rating Guide</a></li>
+        <li><a href="ev-tire-matcher.html">EV Tire Matcher</a></li>
+        <li><a href="plus-sizing-calculator.html">Plus-Sizing Calculator</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./index.html">Tools</a></li>
+        <li><a href="../blog/index.html">Blog</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+        <li><a href="../faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="../privacy.html">Privacy Policy</a></li>
+        <li><a href="../terms.html">Terms of Use</a></li>
+        <li><a href="../disclaimer.html">Disclaimer</a></li>
+        <li><a href="../disclosure.html">Affiliate Disclosure</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>About</h4>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);line-height:1.6;">Tire Size Hub helps drivers make informed tire decisions with free calculators, expert guides, and real-world stories from the shop floor.</p>
+    </div>
+  </div>
+  <div class="tsh-footer-bottom">
+    <p>&copy; 2024 Tire Size Hub. All rights reserved. Built in Detroit.</p>
+  </div>
+</footer>
+
+<script>
+const COMP_KEY = 'tsh_tire_comparisons';
+let currentComp = null;
+
+function calcTire(w, a, r){
+  const sidewall_mm = w * (a / 100);
+  const sidewall_in = sidewall_mm / 25.4;
+  const diameter = r + (sidewall_in * 2);
+  return {
+    diameter: diameter,
+    circumference: diameter * Math.PI,
+    revs: 63360 / (diameter * Math.PI),
+    sidewall: sidewall_in,
+    width: w
+  };
+}
+
+function compare(){
+  const wa = parseFloat(document.getElementById('width-a').value);
+  const aa = parseFloat(document.getElementById('aspect-a').value);
+  const ra = parseFloat(document.getElementById('rim-a').value);
+  const wb = parseFloat(document.getElementById('width-b').value);
+  const ab = parseFloat(document.getElementById('aspect-b').value);
+  const rb = parseFloat(document.getElementById('rim-b').value);
+
+  if(!wa || !aa || !ra || !wb || !ab || !rb){
+    alert('Please fill in all fields for both tires.');
+    return;
+  }
+
+  const tireA = calcTire(wa, aa, ra);
+  const tireB = calcTire(wb, ab, rb);
+  const sizeA = wa + '/' + aa + 'R' + ra;
+  const sizeB = wb + '/' + ab + 'R' + rb;
+
+  currentComp = { sizeA, sizeB, tireA, tireB, timestamp: new Date().toISOString() };
+
+  document.getElementById('label-a').textContent = sizeA;
+  document.getElementById('label-b').textContent = sizeB;
+  document.getElementById('label-diff').textContent = (tireB.diameter - tireA.diameter).toFixed(2) + '"';
+
+  const fields = [
+    ['dia', 'diameter', '"'],
+    ['circ', 'circumference', '"'],
+    ['revs', 'revs', ''],
+    ['wall', 'sidewall', '"'],
+    ['width', 'width', 'mm']
+  ];
+
+  fields.forEach(([key, prop, unit]) => {
+    const va = tireA[prop];
+    const vb = tireB[prop];
+    const diff = vb - va;
+    const pct = ((diff / va) * 100).toFixed(1);
+    document.getElementById('td-' + key + '-a').textContent = va.toFixed(2) + unit;
+    document.getElementById('td-' + key + '-b').textContent = vb.toFixed(2) + unit;
+    document.getElementById('td-' + key + '-diff').textContent = (diff > 0 ? '+' : '') + diff.toFixed(2) + unit;
+    const pctEl = document.getElementById('td-' + key + '-pct');
+    pctEl.textContent = (diff > 0 ? '+' : '') + pct + '%';
+    pctEl.style.color = Math.abs(parseFloat(pct)) > 3 ? '#e74c3c' : (Math.abs(parseFloat(pct)) > 1 ? '#f39c12' : '#27ae60');
+  });
+
+  // Speedometer
+  const speedoError = ((tireB.diameter / tireA.diameter - 1) * 100);
+  const actualSpeed = 60 * (tireB.diameter / tireA.diameter);
+  document.getElementById('td-speed-b').textContent = actualSpeed.toFixed(1) + ' mph';
+  document.getElementById('td-speed-diff').textContent = (speedoError > 0 ? '+' : '') + speedoError.toFixed(1) + '%';
+  document.getElementById('td-speed-pct').textContent = 'At 60 mph indicated';
+
+  // Warning
+  const warn = document.getElementById('warning-box');
+  if(Math.abs(speedoError) > 3){
+    warn.style.display = 'block';
+    warn.style.background = '#fff3cd';
+    warn.style.color = '#856404';
+    warn.style.borderLeft = '4px solid #f39c12';
+    warn.textContent = '⚠️ Speedometer error exceeds 3%. At 60 mph on your dash, you will actually be traveling ' + actualSpeed.toFixed(1) + ' mph.';
+  } else if(Math.abs(tireB.diameter - tireA.diameter) > 0.25){
+    warn.style.display = 'block';
+    warn.style.background = '#f8d7da';
+    warn.style.color = '#721c24';
+    warn.style.borderLeft = '4px solid #e74c3c';
+    warn.textContent = '⚠️ Diameter difference exceeds 0.25". This may cause issues on AWD vehicles. Check your owner's manual.';
+  } else {
+    warn.style.display = 'block';
+    warn.style.background = '#d4edda';
+    warn.style.color = '#155724';
+    warn.style.borderLeft = '4px solid #27ae60';
+    warn.textContent = '✅ Diameter difference is within acceptable range for most vehicles.';
+  }
+
+  document.getElementById('results-area').style.display = 'block';
+  drawCompareChart(tireA, tireB, sizeA, sizeB);
+}
+
+function resetForm(){
+  ['width-a','aspect-a','rim-a','width-b','aspect-b','rim-b'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('results-area').style.display = 'none';
+  currentComp = null;
+  const canvas = document.getElementById('compareChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#999';
+  ctx.font = '16px Inter';
+  ctx.textAlign = 'center';
+  ctx.fillText('Enter two tire sizes and click Compare to see the chart', canvas.width/2, canvas.height/2);
+}
+
+function drawCompareChart(a, b, labelA, labelB){
+  const canvas = document.getElementById('compareChart');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const metrics = [
+    {name: 'Diameter', a: a.diameter, b: b.diameter},
+    {name: 'Circumference', a: a.circumference, b: b.circumference},
+    {name: 'Sidewall', a: a.sidewall, b: b.sidewall},
+    {name: 'Width', a: a.width/25.4, b: b.width/25.4}
+  ];
+
+  const padding = 60;
+  const chartH = canvas.height - padding * 2;
+  const chartW = canvas.width - padding * 2;
+  const barW = 30;
+  const groupW = chartW / metrics.length;
+
+  const maxVal = Math.max(...metrics.map(m => Math.max(m.a, m.b))) * 1.15;
+
+  ctx.fillStyle = '#1a1a2e';
+  ctx.font = 'bold 16px Oswald';
+  ctx.textAlign = 'left';
+  ctx.fillText('Side-by-Side Comparison', padding, 30);
+
+  // Legend
+  ctx.fillStyle = '#ff6b35';
+  ctx.fillRect(padding, 45, 14, 14);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.font = '13px Inter';
+  ctx.fillText(labelA, padding + 20, 56);
+  ctx.fillStyle = '#0f3460';
+  ctx.fillRect(padding + 150, 45, 14, 14);
+  ctx.fillStyle = '#2d2d3a';
+  ctx.fillText(labelB, padding + 166, 56);
+
+  metrics.forEach((m, i) => {
+    const x = padding + i * groupW + groupW/2;
+    const ha = (m.a / maxVal) * chartH;
+    const hb = (m.b / maxVal) * chartH;
+    const ya = canvas.height - padding - ha;
+    const yb = canvas.height - padding - hb;
+
+    ctx.fillStyle = '#ff6b35';
+    ctx.fillRect(x - barW - 4, ya, barW, ha);
+    ctx.fillStyle = '#0f3460';
+    ctx.fillRect(x + 4, yb, barW, hb);
+
+    ctx.fillStyle = '#2d2d3a';
+    ctx.font = 'bold 12px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(m.a.toFixed(1), x - barW/2 - 4, ya - 6);
+    ctx.fillText(m.b.toFixed(1), x + barW/2 + 4, yb - 6);
+
+    ctx.fillStyle = '#6b6b7b';
+    ctx.font = '12px Inter';
+    ctx.fillText(m.name, x, canvas.height - padding + 18);
+  });
+
+  // Axis
+  ctx.strokeStyle = '#ddd';
+  ctx.beginPath();
+  ctx.moveTo(padding, padding + 70);
+  ctx.lineTo(padding, canvas.height - padding);
+  ctx.lineTo(canvas.width - padding, canvas.height - padding);
+  ctx.stroke();
+}
+
+function saveComparison(){
+  if(!currentComp) return;
+  let hist = JSON.parse(localStorage.getItem(COMP_KEY) || '[]');
+  hist.unshift(currentComp);
+  if(hist.length > 20) hist = hist.slice(0, 20);
+  localStorage.setItem(COMP_KEY, JSON.stringify(hist));
+  renderCompHistory();
+}
+
+function renderCompHistory(){
+  const hist = JSON.parse(localStorage.getItem(COMP_KEY) || '[]');
+  const tbody = document.getElementById('comp-history-body');
+  const empty = document.getElementById('comp-history-empty');
+  if(hist.length === 0){
+    tbody.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  tbody.innerHTML = hist.map((h, i) => {
+    const diff = (h.tireB.diameter - h.tireA.diameter).toFixed(2);
+    const wdiff = (h.tireB.width - h.tireA.width).toFixed(0);
+    const spd = ((h.tireB.diameter / h.tireA.diameter - 1) * 100).toFixed(1);
+    return '<tr style="border-bottom:1px solid var(--tsh-border);"><td style="padding:10px;"><strong>' + h.sizeA + '</strong></td><td style="padding:10px;"><strong>' + h.sizeB + '</strong></td><td style="padding:10px;text-align:center;">' + (diff > 0 ? '+' : '') + diff + '"</td><td style="padding:10px;text-align:center;">' + (wdiff > 0 ? '+' : '') + wdiff + 'mm</td><td style="padding:10px;text-align:center;">' + (spd > 0 ? '+' : '') + spd + '%</td><td style="padding:10px;text-align:center;"><button onclick="deleteComp(' + i + ')" style="background:none;border:none;color:var(--tsh-accent);cursor:pointer;font-size:1.2rem;">🗑️</button></td></tr>';
+  }).join('');
+}
+
+function deleteComp(i){
+  let hist = JSON.parse(localStorage.getItem(COMP_KEY) || '[]');
+  hist.splice(i, 1);
+  localStorage.setItem(COMP_KEY, JSON.stringify(hist));
+  renderCompHistory();
+}
+
+function clearCompHistory(){
+  if(!confirm('Clear all saved comparisons?')) return;
+  localStorage.removeItem(COMP_KEY);
+  renderCompHistory();
+}
+
+function exportComparison(){
+  if(!currentComp) return;
+  const lines = [
+    'TIRE SIZE COMPARISON REPORT',
+    'Generated by Tire Size Hub',
+    'Date: ' + new Date().toLocaleString(),
+    '',
+    'TIRE A: ' + currentComp.sizeA,
+    '  Diameter: ' + currentComp.tireA.diameter.toFixed(2) + '"',
+    '  Circumference: ' + currentComp.tireA.circumference.toFixed(2) + '"',
+    '  Revs/Mile: ' + currentComp.tireA.revs.toFixed(0),
+    '  Sidewall: ' + currentComp.tireA.sidewall.toFixed(2) + '"',
+    '  Width: ' + currentComp.tireA.width.toFixed(0) + 'mm',
+    '',
+    'TIRE B: ' + currentComp.sizeB,
+    '  Diameter: ' + currentComp.tireB.diameter.toFixed(2) + '"',
+    '  Circumference: ' + currentComp.tireB.circumference.toFixed(2) + '"',
+    '  Revs/Mile: ' + currentComp.tireB.revs.toFixed(0),
+    '  Sidewall: ' + currentComp.tireB.sidewall.toFixed(2) + '"',
+    '  Width: ' + currentComp.tireB.width.toFixed(0) + 'mm',
+    '',
+    'DIFFERENCES:',
+    '  Diameter: ' + (currentComp.tireB.diameter - currentComp.tireA.diameter).toFixed(2) + '"',
+    '  Speedometer Error: ' + ((currentComp.tireB.diameter/currentComp.tireA.diameter - 1) * 100).toFixed(1) + '%',
+    '',
+    'https://tiresizehub.org/tools/tire-size-comparator.html'
+  ];
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'tire-comparison-' + currentComp.sizeA.replace(/\//g, '-') + '-vs-' + currentComp.sizeB.replace(/\//g, '-') + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function exportAllComps(){
+  const hist = JSON.parse(localStorage.getItem(COMP_KEY) || '[]');
+  if(hist.length === 0){ alert('No comparisons to export.'); return; }
+  const lines = ['TIRE SIZE HUB - ALL COMPARISONS', 'Date: ' + new Date().toLocaleString(), ''];
+  hist.forEach((h, i) => {
+    lines.push((i+1) + '. ' + h.sizeA + ' vs ' + h.sizeB);
+    lines.push('   Dia Diff: ' + (h.tireB.diameter - h.tireA.diameter).toFixed(2) + '" | Width Diff: ' + (h.tireB.width - h.tireA.width).toFixed(0) + 'mm');
+    lines.push('');
+  });
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'tire-comparisons.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Init
+renderCompHistory();
+const canvas = document.getElementById('compareChart');
+const ctx = canvas.getContext('2d');
+ctx.fillStyle = '#999';
+ctx.font = '16px Inter';
+ctx.textAlign = 'center';
+ctx.fillText('Enter two tire sizes and click Compare to see the chart', canvas.width/2, canvas.height/2);
+if(window.initAds) window.initAds();
+
+function copyLink(){
+  const url = window.location.href;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Link copied to clipboard!');
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    alert('Link copied to clipboard!');
+  });
+}
+
+</script>
+
+</body>
+</html>
